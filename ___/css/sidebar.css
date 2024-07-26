@@ -1,0 +1,938 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+:root {
+    --red: #6c2023;
+    --sec: #fc600f;
+    --thi: #fc360f;
+    --for: #fc0fa5;
+    --fif: #fc890f;
+    --six: #fc7d63;
+    font-size: 16px;
+}
+
+body {
+    font-family: "Poppins";
+    margin: 0;
+}
+
+.my-nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    height: 5rem;
+    background-color: #fff;
+    border-bottom: 2px solid rgb(224, 219, 219);
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); */
+    z-index: 100;
+}
+
+.my-nav img {
+    width: 8rem;
+}
+
+.my-nav button {
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #808080;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--red);
+    font-family: "Poppins";
+}
+
+.my-nav button:hover {
+    background-color: #dfdede;
+}
+
+.my-nav button:active {
+    background-color: #bebdbd;
+}
+
+.my-main {
+    display: flex;
+}
+
+.my-sidebar {
+    background-color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 5rem);
+    gap: 0.5rem;
+    border-right: 2px solid rgb(224, 219, 219);
+    transition: all 0.3s;
+    /* box-shadow: 0 0 12px rgba(0, 0, 0, 0.25); */
+}
+
+.my-sidebar-item {
+    text-decoration: none;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.1s;
+    width: fit-content;
+}
+
+.my-sidebar-item:hover {
+    background-color: #e7e7e7;
+    text-decoration: none;
+}
+
+.my-sidebar-item:active {
+    background-color: #dbd9d9;
+}
+
+.my-sidebar-active {
+    background-color: #e7e7e7;
+}
+
+.my-icon {
+    padding-top: 4px;
+}
+
+.my-icon-name {
+    color: #353535;
+    white-space: nowrap;
+}
+
+.my-icon-name-active {
+    color: #7c2023;
+    white-space: nowrap;
+}
+
+.my-menu {
+    padding: 1rem 2rem;
+    flex: 1 1 0%;
+    background-color: #f3f6f9;
+}
+
+.my-menu h2 {
+    color: rgb(75, 75, 75);
+    margin-bottom: 2rem;
+}
+
+.my-buttons-card {
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.my-buttons-card div {
+    display: flex;
+    gap: 1rem;
+}
+
+.test-result-info-card {
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.test-result-info-card table,
+.test-result-info-card td,
+.test-result-info-card th {
+    font-weight: 500;
+    border: 1px solid rgb(230, 228, 228);
+}
+
+.test-result-info-card table {
+    border-radius: 6px;
+    border-collapse: separate;
+    overflow: hidden;
+}
+
+.test-result-info-card td,
+.test-result-info-card th {
+    padding: 1rem;
+}
+
+.test-result-info-card table th:last-child {
+    width: 320px;
+}
+
+/* .test-result-info-card table th:first-child {
+    width: 200px;
+} */
+
+.test-result-info-card table tr:first-child td:first-child {
+    border: 1px solid rgb(230, 228, 228);
+    border-top-left-radius: 6px;
+}
+
+.test-result-info-card table tr:first-child td:last-child {
+    border-top-right-radius: 6px;
+}
+
+.test-result-info-card table tr:last-child td:first-child {
+    border-bottom-left-radius: 6px;
+}
+
+.test-result-info-card table tr:last-child td:last-child {
+    border-bottom-right-radius: 6px;
+}
+
+/* .test-result-info-card div {
+    display: grid;
+    border-radius: 8px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    grid-template-columns: 30% 70%;
+    justify-content: start;
+    align-content: start;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.test-result-info-card div p {
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid grey;
+}
+
+.test-result-info-card div p:nth-child(odd) {
+    border-left: none;
+}
+
+.test-result-info-card div p:nth-child(even) {
+    border-right: none;
+} */
+
+.my-table-card {
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+}
+
+.my-dropdown {
+    position: fixed;
+    top: 4rem;
+    right: 1rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+    border: 1px solid grey;
+    z-index: 100;
+}
+
+.my-dropdown div:first-child {
+    font-size: 1rem;
+}
+
+.dropdown-item {
+    cursor: pointer;
+    background-color: white;
+    border: none;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.2rem 1rem 0.2rem 0.5rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-item:hover {
+    background-color: #e8e6e6;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown-item:active {
+    background-color: #d4d2d2;
+}
+
+.dropdown-icon {
+    padding-top: 4px;
+}
+
+hr {
+    line-height: 0;
+    margin-top: 0;
+    border-bottom: 1px solid rgb(240, 237, 237);
+    width: 100%;
+}
+
+.action-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 40px 0 20px 0;
+}
+
+.action-buttons div {
+    display: flex;
+    gap: 8px;
+}
+
+.b {
+    padding: 12px 16px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 8px;
+    font-family: "Poppins";
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    border: none;
+    color: white;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.b:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.b:active {
+    text-decoration: none;
+    color: white;
+}
+
+.b:focus {
+    text-decoration: none;
+    color: white;
+}
+
+.b-primary {
+    background-color: #3d78e3;
+}
+
+.b-primary:hover {
+    background-color: #2b55a1;
+}
+
+.b-primary:active {
+    background-color: #1b3463;
+}
+
+.b-danger {
+    background-color: #f17171;
+}
+
+.b-danger:hover {
+    background-color: #c05a5a;
+}
+
+.b-danger:active {
+    background-color: #924444;
+}
+
+.b-info {
+    background-color: #5b71b9;
+}
+
+.b-info:hover {
+    background-color: #46568c;
+}
+
+.b-info:active {
+    background-color: #303b60;
+}
+
+.b-info-outlined {
+    color: #5b71b9 !important;
+    background-color: white !important;
+    border: 1px solid #5b71b9 !important;
+}
+
+.b-info-outlined:hover {
+    background-color: #f0f4ff !important;
+}
+
+.b-info-outlined:active {
+    background-color: #5b71b9 !important;
+    color: white !important;
+}
+
+.b-success {
+    background-color: #67b173;
+}
+
+.b-success:hover {
+    background-color: #4a8153;
+}
+
+.b-success:active {
+    background-color: #37613e;
+}
+
+.b-warning {
+    background-color: #ffc84b;
+}
+
+.b-warning:hover {
+    background-color: #bd9537;
+}
+
+.b-warning:active {
+    background-color: #7e6425;
+}
+
+.b-ghost {
+    background-color: #f0edff;
+}
+
+.b-ghost:hover {
+    background-color: #e7e2ff;
+}
+
+.b-ghost:active {
+    background-color: #ded7ff;
+}
+
+.gridjs-pages {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-button {
+    padding: 10px 14px !important;
+    border: 1px solid #3d78e3 !important;
+    color: #3d78e3 !important;
+    outline: none !important;
+    border-radius: 8px;
+    font-family: "Poppins";
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    border: none;
+    color: white;
+    transition: all 0.3s;
+    cursor: pointer;
+    min-width: 40px !important;
+}
+
+.pagination-button:hover {
+    background-color: #e7e0ff !important;
+}
+
+.pagination-button:active {
+    background-color: #cabcff !important;
+}
+
+.pagination-button:disabled {
+    color: rgb(181, 180, 180) !important;
+    border: 1px solid rgb(181, 180, 180) !important;
+    background-color: white !important;
+}
+
+.pagination-button:hover:disabled {
+    background-color: white !important;
+}
+
+.pagination-button-current {
+    background-color: #2b55a1 !important;
+    color: white !important;
+}
+
+.pagination-button-current:hover {
+    background-color: #2b55a1 !important;
+    color: white !important;
+}
+
+.pagination-button-current:active {
+    background-color: #2b55a1 !important;
+    color: white !important;
+}
+
+.td {
+    border: 1px solid #e5e7eb !important;
+}
+
+.td:first-of-type {
+    border-left: none !important;
+}
+
+.td:last-of-type {
+    border-right: none !important;
+}
+
+.my-table {
+    box-shadow: none !important;
+}
+
+.gridjs-wrapper {
+    margin-top: 16px;
+    box-shadow: none !important;
+    border: 1px solid #d4d4d4;
+    font-size: 14px !important;
+    min-height: 333px !important;
+    overflow: visible !important;
+}
+
+.gridjs-footer {
+    border: 1px solid #d4d4d4;
+    box-shadow: none !important;
+}
+
+.gridjs-spread {
+    border: none !important;
+    background-color: white !important;
+    color: #2b55a1 !important;
+}
+
+.gridjs-spread:hover {
+    border: none !important;
+    background-color: white !important;
+    color: #2b55a1 !important;
+}
+
+.gridjs-spread:active {
+    border: none !important;
+    background-color: white !important;
+    color: #2b55a1 !important;
+}
+
+.row-button-container {
+    display: flex;
+    gap: 8px;
+}
+
+.row-button-container button,
+.row-button-container a {
+    border: none;
+    padding: 4px 6px;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+}
+
+.row-button-container button:hover,
+.row-button-container a:hover {
+    background-color: rgb(225, 224, 224);
+}
+
+.row-button-container button:active,
+.row-button-container a:active {
+    background-color: rgb(192, 190, 190);
+}
+
+.edit-btn::before {
+    font-family: "Poppins";
+    content: "Edit";
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.1s;
+}
+
+.edit-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.hasil-btn::before {
+    font-family: "Poppins";
+    content: "Hasil";
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.1s;
+}
+
+.hasil-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.delete-btn::before {
+    content: "Hapus";
+    font-family: "Poppins";
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.3s;
+}
+
+.delete-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.activate-user-btn::before {
+    content: "Aktifkan User";
+    white-space: nowrap;
+    font-family: "Poppins";
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.3s;
+}
+
+.activate-user-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.deactivate-user-btn::before {
+    content: "Disable User";
+    font-family: "Poppins";
+    white-space: nowrap;
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.3s;
+}
+
+.deactivate-user-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.reset-pass-btn::before {
+    content: "Reset Password";
+    font-family: "Poppins";
+    white-space: nowrap;
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.3s;
+}
+
+.reset-pass-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.category-handled-btn::before {
+    content: "Kategori Di-handle";
+    font-family: "Poppins";
+    white-space: nowrap;
+    z-index: -1;
+    opacity: 0;
+    background-color: black;
+    color: white;
+    font-weight: 500;
+    padding: 8px 10px;
+    position: absolute;
+    border-radius: 4px;
+    top: -2.5rem;
+    transition: all 0.3s;
+}
+
+.category-handled-btn:hover::before {
+    z-index: 1;
+    opacity: 100;
+}
+
+.gridjs-td:first-child,
+.gridjs-th:first-child {
+    text-align: center;
+}
+
+.search input {
+    font-family: "Poppins";
+}
+
+.my-bank-soal-card {
+    padding: 1rem;
+    background-color: white;
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+}
+
+.my-bank-soal-card h3 {
+    font-size: 20px;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: rgb(75, 75, 75);
+}
+
+.my-bank-soal-card hr {
+    margin: 2rem 0;
+    border: 1px solid rgb(217, 214, 214);
+}
+
+.input-soal-info {
+    display: grid;
+    grid-template-columns: 50%;
+    row-gap: 1rem;
+    font-size: 14px;
+}
+
+.input-soal-info > div {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.input-soal-info input {
+    padding: 12px 16px;
+    width: 60px;
+    font-family: "Poppins";
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid grey;
+    text-align: center;
+}
+
+.input-soal-info input:focus {
+    outline: 2px solid grey;
+    outline-offset: 1px;
+}
+
+.jawaban {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 80px auto;
+    gap: 20px;
+    margin-bottom: 1rem;
+}
+
+.tox-promotion {
+    display: none !important;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.kunci-button {
+    padding: 12px 16px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 8px;
+    font-family: "Poppins";
+    font-weight: 500;
+    font-size: 13px;
+    border: none;
+    color: #3d78e3;
+    border: 1px solid #3d78e3;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + .kunci-button {
+    background-color: #3d78e3;
+    color: #fff;
+}
+
+.kunci-button:hover {
+    background-color: #e6f2ff;
+}
+
+.preview-soal {
+    background-color: blue;
+    border-radius: 4px;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    /* top: 100%;
+    left: 100%; */
+    transform: translate(150%, -300%);
+    z-index: 999;
+}
+
+.hidden {
+    display: none;
+}
+/* 
+.girdjs-container {
+    overflow: visible !important;
+} */
+
+.soal-info {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    align-items: center;
+    position: relative;
+}
+
+.badge-kategori-panitia {
+    padding: 4px 12px;
+    background-color: #67b173;
+    color: white;
+    border-radius: 8px;
+}
+
+.vertical-divider {
+    /* border-l w-[1px] h-6 border border-[#C8C8C8] */
+    border-left: 1px solid #c8c8c8;
+    width: 1px;
+    height: 24px;
+}
+
+.section-jawaban {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.section-jawaban > div {
+    display: flex;
+    gap: 20px;
+    align-items: start;
+    height: fit-content;
+    text-align: start;
+}
+
+.opsi {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+}
+
+.opsi ~ div {
+    width: 90%;
+    margin-top: 10px;
+}
+
+.benar {
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.btn-dropdown {
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    transition: 0.1s background-color;
+}
+
+.btn-dropdown:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.btn-dropdown:active {
+    background-color: rgb(215, 214, 214);
+}
+
+.show {
+    opacity: 100%;
+    z-index: 10;
+}
+
+.hide {
+    opacity: 0;
+    z-index: -10;
+}
+
+.dropdown-more {
+    position: absolute;
+    width: 160px;
+    padding: 8px 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px 1px #c0c0c0;
+    right: 0px;
+    top: 44px;
+    /* opacity: 0%;
+    z-index: -10; */
+    transition: 0.1 all;
+}
+
+.dropdown-more > a {
+    border: none;
+    display: block;
+    color: black;
+    padding: 8px 16px;
+    width: 100%;
+    background-color: transparent;
+    text-align: start;
+    text-decoration: none;
+}
+
+.dropdown-more > a:hover {
+    background-color: rgb(236, 236, 236);
+}
+
+.dropdown-more > a:active {
+    background-color: rgb(223, 223, 223);
+}

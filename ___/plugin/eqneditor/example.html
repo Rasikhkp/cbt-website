@@ -1,0 +1,25 @@
+<!-- 
+  Basic example HTML to create, initialise, and display a TinyMCE textbox with the 
+  CodeCogs equation editor plugin. Simply view this file in your browser to see the example
+-->
+
+<!DOCTYPE html>
+<head>
+    <script src="./node_modules/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="./eqneditor.js"></script>
+
+    <script>
+      // Initialises TinyMCE text area
+      tinymce.init({
+          selector: '#mytextarea',
+          plugins: 'eqneditor',
+          toolbar: 'eqneditor'
+      });
+    </script>
+</head>
+<body>
+    <h1>TinyMCE Quick Start Guide</h1>
+    <form method="post">
+      <textarea id="mytextarea">Hello, World!</textarea>
+    </form>
+</body>

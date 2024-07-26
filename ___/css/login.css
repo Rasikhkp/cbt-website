@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+    --red: #6c2023;
+    --sec: #fc600f;
+    --thi: #fc360f;
+    --for: #fc0fa5;
+    --fif: #fc890f;
+    --six: #fc7d63;
+}
+
+body {
+    background-color: #f6f9ff;
+    width: 100%;
+    margin: 0px;
+    font-family: "Poppins", sans-serif;
+}
+
+.logo-beasiswa {
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+    display: block;
+}
+
+.my-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 20px rgba(149, 0, 241, 0.2);
+}
+
+.my-card h2 {
+    color: var(--red);
+    font-weight: 500;
+    line-height: 0px;
+}
+
+.my-card p {
+    align-items: center;
+    color: var(--red);
+    font-size: 14px;
+    line-height: 0px;
+}
+
+form {
+    margin-top: 2rem;
+    width: 100%;
+    color: #212529;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+form input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--red);
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.1s ease-in;
+}
+
+form input:focus {
+    outline: 4px solid #6c20236f;
+    border: 1px solid #6c20236f;
+    animation-duration: 0.1s;
+}
+
+form button {
+    background-color: var(--red);
+    width: 100%;
+    padding: 1rem 0;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 1rem;
+    border: none;
+    margin-top: 10px;
+    transition: all 0.3s;
+}
+
+form button:hover {
+    cursor: pointer;
+    background-color: #4d1719;
+}
+
+form button:active {
+    scale: 0.95;
+}
