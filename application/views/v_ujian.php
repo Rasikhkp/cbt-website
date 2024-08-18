@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="<?php echo base_url(); ?>___/css/bootstrap.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>___/css/style.css?<?php echo time(); ?>" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>___/css/sidebar.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="<?php echo base_url(); ?>___/img/kemenag.png">
     <style type="text/css">
@@ -50,10 +51,100 @@
     </style>
 </head>
 
-<body>
+<body style="background-color: #F3F6F9; min-height: 100vh;">
     <div class="se-pre-con"></div>
 
-    <nav class="navbar navbar-findcond navbar-fixed-top" style="background-color: #0B6623; color: #fff;">
+    <nav class="nav-ujian">
+        <img style="height: 60px;" src="<?php echo base_url(); ?>___/img/Logo Beasiswa Cakrawala-color.png" alt="beasiswa cakrawala">
+        <button onclick="return simpan_akhir()" class="b b-primary">Selesaikan Ujian</button>
+    </nav>
+
+    <div style="display: flex; padding: 36px; gap: 36px; width: 100%;">
+        <form role="form" name"_form" method="post" id="_form" style="flex-basis: 70%; ">
+            <div style="background-color: white; border-radius: 24px; padding: 20px">
+                <div style="font-size: 18px; font-weight: 600; color: #3C3C3C; display: flex; justify-content: space-between">
+                    <div>Soal ke <span id="nomor-soal"></span></div>
+                    <box-icon class="ragu_ragu" style="cursor: pointer" onclick="tidak_jawab()" rel="1" name='flag-alt' type='solid' color="#A0A0A0"></box-icon>
+                </div>
+                <div style="margin-top: 4px; font-size: 12px; color: #ADADAD"><?php echo $info_soal; ?></div>
+
+                <?php echo $soal_jawaban; ?>
+
+                <!-- <div style="margin-top: 16px; color: #3C3C3C; font-size: 14px">
+                    <p>Apa yang dimaksud dengan “seni instalasi”? Berikan contoh seni instalasi yang terkenal dan jelaskan maknanya.</p>
+
+                    <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 16px">
+                        <div style="display: flex; align-items: start; gap: 16px;">
+                            <input style="display: block;" type="radio" name="jawaban" value="a" id="a">
+
+                            <label for="a" style="font-weight: 400">Seni instalasi adalah bentuk seni lukis pada kanvas besar. Contoh: "Starry Night" oleh Vincent van Gogh, yang menggambarkan langit malam.</label>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 16px;">
+                            <input style="display: block;" type="radio" name="jawaban" value="a" id="a">
+
+                            <label for="a" style="font-weight: 400">Seni instalasi adalah bentuk seni lukis pada kanvas besar. Contoh: "Starry Night" oleh Vincent van Gogh, yang menggambarkan langit malam.</label>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 16px;">
+                            <input style="display: block;" type="radio" name="jawaban" value="a" id="a">
+
+                            <label for="a" style="font-weight: 400">Seni instalasi adalah bentuk seni lukis pada kanvas besar. Contoh: "Starry Night" oleh Vincent van Gogh, yang menggambarkan langit malam.</label>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 16px;">
+                            <input style="display: block;" type="radio" name="jawaban" value="a" id="a">
+
+                            <label for="a" style="font-weight: 400">Seni instalasi adalah bentuk seni lukis pada kanvas besar. Contoh: "Starry Night" oleh Vincent van Gogh, yang menggambarkan langit malam.</label>
+                        </div>
+                        <div style="display: flex; align-items: start; gap: 16px;">
+                            <input style="display: block;" type="radio" name="jawaban" value="a" id="a">
+
+                            <label for="a" style="font-weight: 400">Seni instalasi adalah bentuk seni lukis pada kanvas besar. Contoh: "Starry Night" oleh Vincent van Gogh, yang menggambarkan langit malam.</label>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+            <div style="display: flex; gap: 16px; margin-top: 16px; justify-content: center">
+                <button type="button" class="b b-success back" rel="0" onclick="back()" style="display: flex; align-items: center"><box-icon name='chevron-left' color="white"></box-icon></button>
+                <button type="button" class="b b-primary next" rel="2" onclick="next()" style="display: flex; align-items: center"><box-icon name='chevron-right' color="white"></box-icon></button>
+            </div>
+
+            <input type="hidden" name="jml_soal" id="jml_soal" value="<?php echo $no; ?>">
+        </form>
+
+        <div style="padding: 16px; flex-basis: 30%; background-color: white; border-radius: 24px; height: fit-content">
+            <div style="background-color: #F3F6F9; padding: 16px; text-align: center; border-radius: 16px">
+                <p style="font-size: 14px; font-weight: 600; color: #434343">Time to complete</p>
+                <p style="color: #F78500; font-size: 20px; font-weight: 700"><span id="batas-waktu">20:00:00</span> / <span id="countdown-waktu">30:00:00</span></p>
+            </div>
+
+            <p style="margin-top: 16px; font-size: 18px; color: #393939">Soal</p>
+
+            <div style="margin-top: 12px; display: flex; gap: 16px; align-items: center">
+                <div id="soal_sudah_dikerjakan" style="font-size: 12px; font-weight: 600; color: #393939;">11/22</div>
+                <div style="width: 100%; height: 8px; background-color: #D9D9D9; border-radius: 4px">
+                    <div id="progress_pengerjaan" style="height: 100%; width: 50%; border-radius: 4px; background-color: #3D78E3"></div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 36px; margin-top: 12px; font-size: 12px; color: #8A8A8A">
+                <div style="display: flex; gap: 12px; align-items: center">
+                    <div style="width: 12px; height: 12px; border-radius: 4px; background-color: #3D78E3"></div>
+                    <div>Dijawab</div>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center">
+                    <div style="width: 12px; height: 12px; border-radius: 4px; background-color: #67B173"></div>
+                    <div>Ragu-ragu</div>
+                </div>
+            </div>
+
+            <div id="info-jawaban" style="margin-top: 16px; background-color: #F3F6F9; padding: 16px; display: flex; border-radius: 16px; flex-wrap: wrap; justify-content: center; gap: 16px;">
+                <div class="item-info-jawaban belum-dijawab">1</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+    <nav class="navbar navbar-findcond navbar-fixed-top" style="display: none; background-color: #0B6623; color: #fff;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
@@ -119,7 +210,7 @@
             </form>
         </div>
 
-    </div>
+    </div> -->
 
     <div class="ajax-loading"><i class="fa fa-spin fa-spinner"></i> Loading ...</div>
 
@@ -133,6 +224,7 @@
     <script src="<?php echo base_url(); ?>___/js/bootstrap.js"></script>
     <script src="<?php echo base_url(); ?>___/plugin/countdown/jquery.countdownTimer.js"></script>
     <script src="<?php echo base_url(); ?>___/plugin/jquery_zoom/jquery.zoom.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 
     <script type="text/javascript">
         var base_url = "<?php echo base_url(); ?>";
@@ -140,6 +232,20 @@
         $(window).load(function() {
             $(".se-pre-con").fadeOut("slow");
         });
+
+        function convertMinutesToHHMMSS(minutes) {
+            const totalSeconds = minutes * 60;
+            const hours = Math.floor(totalSeconds / 3600);
+            const remainingSecondsAfterHours = totalSeconds % 3600;
+            const minutesPart = Math.floor(remainingSecondsAfterHours / 60);
+            const seconds = remainingSecondsAfterHours % 60;
+
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutesPart).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+
+            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
 
         function getFormData($form) {
             var unindexed_array = $form.serializeArray();
@@ -151,12 +257,12 @@
         }
 
         $(document).on("ready", function() {
-            $('.gambar').each(function() {
-                var url = $(this).attr("src");
-                $(this).zoom({
-                    url: url
-                });
-            });
+            // $('.gambar').each(function() {
+            //     var url = $(this).attr("src");
+            //     $(this).zoom({
+            //         url: url
+            //     });
+            // });
 
             hitung();
             simpan_sementara();
@@ -165,7 +271,7 @@
             widget = $(".step");
             btnnext = $(".next");
             btnback = $(".back");
-            btnsubmit = $(".submit");
+            // btnsubmit = $(".submit");
 
             $(".step").hide();
             $(".back").hide();
@@ -174,6 +280,9 @@
 
         widget = $(".step");
         total_widget = widget.length;
+        console.log({
+            total_widget
+        })
 
         simpan_sementara = function() {
             var f_asal = $("#_form");
@@ -183,6 +292,8 @@
             jml_soal = parseInt(jml_soal);
 
             var hasil_jawaban = "";
+            var jawaban = "";
+            var sudah_dijawab = 0;
 
             for (var i = 1; i < jml_soal; i++) {
                 var idx = 'opsi_' + i;
@@ -191,25 +302,36 @@
                 var ragu = form[idx2];
 
                 if (jawab != undefined) {
+                    sudah_dijawab += 1;
                     if (ragu == "Y") {
                         if (jawab == "-") {
-                            hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            // hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            jawaban += `<button id="btn_soal_${i}" onclick="return buka(${i})" class="item-info-jawaban belum-dijawab">${i}. ${jawab}</button>`
                         } else {
-                            hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-warning btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            // hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-warning btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            jawaban += `<button id="btn_soal_${i}" onclick="return buka(${i})" class="item-info-jawaban ragu-ragu">${i}. ${jawab}</button>`
                         }
                     } else {
                         if (jawab == "-") {
-                            hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            // hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            jawaban += `<button id="btn_soal_${i}" onclick="return buka(${i})" class="item-info-jawaban belum-dijawab">${i}. ${jawab}</button>`
                         } else {
-                            hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-success btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            // hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-success btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". " + jawab + "</a>";
+                            jawaban += `<button id="btn_soal_${i}" onclick="return buka(${i})" class="item-info-jawaban dijawab">${i}. ${jawab}</button>`
                         }
                     }
                 } else {
-                    hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". -</a>";
+                    // hasil_jawaban += '<a id="btn_soal_' + (i) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i) + ');">' + (i) + ". -</a>";
+                    jawaban += `<button id="btn_soal_${i}" onclick="return buka(${i})" class="item-info-jawaban belum-dijawab">${i}. -</button>`
                 }
             }
 
-            $("#tampil_jawaban").html('<div id="yes"></div>' + hasil_jawaban);
+            // $("#tampil_jawaban").html('<div id="yes"></div>' + hasil_jawaban);
+            $("#info-jawaban").html(jawaban)
+            $('#soal_sudah_dikerjakan').text(`${sudah_dijawab}/${jml_soal-1}`)
+            $("#progress_pengerjaan").css({
+                'width': `${Math.floor(sudah_dijawab/(jml_soal - 1)*100)}%`
+            })
         }
 
         simpan = function() {
@@ -217,53 +339,70 @@
             var form = getFormData(f_asal);
 
             $.ajax({
-                type: "POST",
-                url: base_url + "adm/ikut_ujian/simpan_satu/" + id_tes,
-                data: JSON.stringify(form),
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                beforeSend: function() {
-                    $('.ajax-loading').show();
-                }
-            }).done(function(response) {
-                $('.ajax-loading').hide();
-
-                var hasil_jawaban = "";
-                var panjang = response.data.length;
-
-                for (var i = 0; i < panjang; i++) {
-                    if (response.data[i] != "_N") {
-                        var getjwb = response.data[i];
-                        var pc_getjwb = getjwb.split('_');
-
-                        if (pc_getjwb[1] == "Y") {
-                            if (pc_getjwb[0] == "-") {
-                                hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
-                            } else {
-                                hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-warning btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
-                            }
-                        } else {
-                            if (pc_getjwb[0] == "-") {
-                                hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
-                            } else {
-                                hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-success btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
-                            }
-                        }
-                    } else {
-                        hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". -</a>";
+                    type: "POST",
+                    url: base_url + "adm/ikut_ujian/simpan_satu/" + id_tes,
+                    data: JSON.stringify(form),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    beforeSend: function() {
+                        $('.ajax-loading').show();
                     }
-                }
+                }).done(function(response) {
+                    console.log(response.data)
+                    $('.ajax-loading').hide();
 
-                //$("#tampil_jawaban").html('<div id="yes"></div>'+hasil_jawaban);
-            });
+                    var hasil_jawaban = "";
+                    var panjang = response.data.length;
+
+                    // for (var i = 0; i < panjang; i++) {
+                    //     if (response.data[i] != "_N") {
+                    //         var getjwb = response.data[i];
+                    //         var pc_getjwb = getjwb.split('_');
+
+                    //         if (pc_getjwb[1] == "Y") {
+                    //             if (pc_getjwb[0] == "-") {
+                    //                 hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
+                    //             } else {
+                    //                 hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-warning btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
+                    //             }
+                    //         } else {
+                    //             if (pc_getjwb[0] == "-") {
+                    //                 hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
+                    //             } else {
+                    //                 hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-success btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". " + pc_getjwb[0] + "</a>";
+                    //             }
+                    //         }
+                    //     } else {
+                    //         hasil_jawaban += '<a id="btn_soal_' + (i + 1) + '" class="btn btn-default btn_soal btn-sm" onclick="return buka(' + (i + 1) + ');">' + (i + 1) + ". -</a>";
+                    //     }
+                    // }
+
+                    //$("#tampil_jawaban").html('<div id="yes"></div>'+hasil_jawaban);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    $('.ajax-loading').hide();
+                    console.error("Request failed: " + textStatus + ", " + errorThrown);
+                })
+                .always(function() {
+                    $('.ajax-loading').hide();
+                });
             return false;
         }
 
         hitung = function() {
             var tgl_mulai = '<?php echo date('Y-m-d H:i:s'); ?>';
             var tgl_selesai = '<?php echo $jam_selesai; ?>';
+            var waktu_ujian = '<?php echo $waktu; ?>'
 
-            $("div#clock").countdowntimer({
+            // $("div#clock").countdowntimer({
+            //     startDate: tgl_mulai,
+            //     dateAndTime: tgl_selesai,
+            //     size: "lg",
+            //     displayFormat: "HMS",
+            //     timeUp: selesai,
+            // });
+
+            $('#batas-waktu').text(convertMinutesToHHMMSS(waktu_ujian))
+            $('#countdown-waktu').countdowntimer({
                 startDate: tgl_mulai,
                 dateAndTime: tgl_selesai,
                 size: "lg",
@@ -287,6 +426,7 @@
             berikutnya = berikutnya > total_widget ? total_widget : berikutnya;
 
             $("#soalke").html(berikutnya);
+            $("#nomor-soal").html(berikutnya);
 
             $(".next").attr('rel', (berikutnya + 1));
             $(".back").attr('rel', (berikutnya - 1));
@@ -317,6 +457,7 @@
             back = back < 1 ? 1 : back;
 
             $("#soalke").html(back);
+            $("#nomor-soal").html(back);
 
             $(".back").attr('rel', (back - 1));
             $(".next").attr('rel', (back + 1));
@@ -370,9 +511,11 @@
             var status_ragu = $("#rg_" + id_soal).val();
 
             if (status_ragu == "N") {
-                $(".ragu_ragu").html('RAGU-RAGU');
+                // $(".ragu_ragu").html('RAGU-RAGU');
+                $(".ragu_ragu").attr('color', "#A0A0A0");
             } else {
-                $(".ragu_ragu").html('TIDAK RAGU');
+                $(".ragu_ragu").attr('color', "#67b173");
+                // $(".ragu_ragu").html('TIDAK RAGU');
             }
         }
 
@@ -395,9 +538,21 @@
             cek_terakhir(id_widget);
 
             $("#soalke").html(id_widget);
+            $("#nomor-soal").html(id_widget);
 
             $(".step").hide();
             $("#widget_" + id_widget).show();
+
+            if (id_widget == total_widget) {
+                $(".back").show();
+                $(".next").hide();
+            } else if (id_widget == 1) {
+                $(".next").show();
+                $(".back").hide();
+            } else {
+                $(".next").show();
+                $(".back").show();
+            }
         }
 
         simpan_akhir = function() {

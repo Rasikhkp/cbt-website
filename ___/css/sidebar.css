@@ -163,6 +163,7 @@ body {
 .test-result-info-card td,
 .test-result-info-card th {
     font-weight: 500;
+    font-size: 14px;
     border: 1px solid rgb(230, 228, 228);
 }
 
@@ -935,4 +936,90 @@ input[type="radio"]:checked + .kunci-button {
 
 .dropdown-more > a:active {
     background-color: rgb(223, 223, 223);
+}
+
+.nav-ujian {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 36px;
+    border-bottom: 2px solid #e0dbdb;
+    align-items: center;
+}
+
+.jawaban-ujian-button {
+    margin: 0;
+    width: 40px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 100%;
+    font-weight: 500;
+    transition: all 0.1s;
+    cursor: pointer;
+}
+
+.jawaban-ujian-button:hover {
+    background-color: rgb(237, 237, 237);
+}
+
+.jawaban-ujian-button:active {
+    background-color: rgb(204, 202, 202);
+}
+
+.item-info-jawaban {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 12px;
+    height: 40px;
+    width: 52px;
+    border: none;
+    transition: all 0.1s;
+}
+
+.dijawab {
+    background-color: #3d78e3;
+    color: white;
+}
+
+.dijawab:hover {
+    background-color: #3362ba;
+}
+
+.dijawab:active {
+    background-color: #274c90;
+}
+
+.belum-dijawab {
+    background-color: white;
+    color: #3d78e3;
+}
+
+.belum-dijawab:hover {
+    background-color: rgb(194, 194, 194);
+    color: #3d78e3;
+}
+
+.belum-dijawab:active {
+    background-color: rgb(155, 155, 155);
+    color: #3d78e3;
+}
+
+.ragu-ragu {
+    color: white;
+    background-color: #67b173;
+}
+
+.ragu-ragu:hover {
+    background-color: #508a5a;
+    color: white;
+}
+
+.ragu-ragu:active {
+    background-color: #3b6542;
+    color: white;
 }

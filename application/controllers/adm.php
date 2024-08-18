@@ -1038,9 +1038,19 @@ class Adm extends CI_Controller
 				$jawaban = array("A", "B", "C", "D", "E");
 				foreach ($data as $d) {
 					$arr_tipe_media = array(
-						"" => "none", "image/jpeg" => "gambar", "image/png" => "gambar", "image/gif" => "gambar",
-						"audio/mpeg" => "audio", "audio/mpg" => "audio", "audio/mpeg3" => "audio", "audio/mp3" => "audio", "audio/x-wav" => "audio", "audio/wave" => "audio", "audio/wav" => "audio",
-						"video/mp4" => "video", "application/octet-stream" => "video"
+						"" => "none",
+						"image/jpeg" => "gambar",
+						"image/png" => "gambar",
+						"image/gif" => "gambar",
+						"audio/mpeg" => "audio",
+						"audio/mpg" => "audio",
+						"audio/mpeg3" => "audio",
+						"audio/mp3" => "audio",
+						"audio/x-wav" => "audio",
+						"audio/wave" => "audio",
+						"audio/wav" => "audio",
+						"video/mp4" => "video",
+						"application/octet-stream" => "video"
 					);
 					$tipe_media = $arr_tipe_media[$d->tipe_file];
 					$file_ada = file_exists("./upload/gambar_soal/" . $d->file) ? "ada" : "tidak_ada";
@@ -1420,12 +1430,33 @@ class Adm extends CI_Controller
 		$a['sess_user'] = $this->session->userdata('admin_user');
 		$a['sess_konid'] = $this->session->userdata('admin_konid');
 
+		// echo '<pre>';
+		// print_r('a : ');
+		// print_r($a);
+		// echo '</pre>';
+
 		//var def uri segment
 		$uri2 = $this->uri->segment(2);
 		$uri3 = $this->uri->segment(3);
 		$uri4 = $this->uri->segment(4);
+
+		// echo '<pre>';
+		// print_r('$uri2 : ');
+		// print_r($uri2);
+		// print_r('$uri3 : ');
+		// print_r($uri3);
+		// print_r('$uri4 : ');
+		// print_r($uri4);
+		// echo '</pre>';
+
 		//var post from json
 		$p = json_decode(file_get_contents('php://input'));
+
+		// echo '<pre>';
+		// print_r('$p : ');
+		// print_r($p);
+		// echo '</pre>';
+
 		//return as json
 		$jeson = array();
 		$x = $this->db->query("SELECT id, jurusan, id_jurusan FROM m_siswa WHERE id = '" . $a['sess_konid'] . "'")->row();
@@ -1444,6 +1475,14 @@ class Adm extends CI_Controller
 									ORDER BY a.tgl_mulai ASC")->result();
 		//echo $this->db->last_query();
 		$a['p']	= "m_list_ujian_siswa";
+
+
+		// echo '<pre>';
+		// print_r('$x : ');
+		// print_r($x);
+		// print_r('$a : ');
+		// print_r($a);
+		// echo '</pre>';
 
 		// if ($uri3 == "data") {
 
@@ -1479,13 +1518,39 @@ class Adm extends CI_Controller
 		$a['sess_user'] = $this->session->userdata('admin_user');
 		$a['sess_konid'] = $this->session->userdata('admin_konid');
 
+		// echo '<pre>';
+		// print_r("a : ");
+		// print_r($a);
+		// echo '</pre>';
+
 		//var def uri segment
 		$uri2 = $this->uri->segment(2);
 		$uri3 = $this->uri->segment(3);
 		$uri4 = $this->uri->segment(4);
+
+		// echo '<pre>';
+		// print_r("uri2 : ");
+		// print_r($uri2);
+		// print_r("uri3 : ");
+		// print_r($uri3);
+		// print_r("uri4 : ");
+		// print_r($uri4);
+		// echo '</pre>';
+
 		//var post from json
 		$p = json_decode(file_get_contents('php://input'));
+		// echo '<pre>';
+		// print_r("p : ");
+		// print_r($p);
+		// echo '</pre>';
+
+
 		$a['detil_user'] = $this->db->query("SELECT * FROM m_siswa WHERE id = '" . $a['sess_konid'] . "'")->row();
+		// echo '<pre>';
+		// print_r("a : ");
+		// print_r($a);
+		// echo '</pre>';
+
 		if ($uri3 == "simpan_satu") {
 			$p			= json_decode(file_get_contents('php://input'));
 
@@ -1565,23 +1630,92 @@ class Adm extends CI_Controller
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
 
+			$a['du'] = $this->db->query("SELECT a.id, a.tgl_mulai, a.terlambat, 
+										a.token, a.nama_ujian, a.jumlah_soal, a.waktu,
+										b.nama nmguru, c.nama nmmapel,
+										(case
+											when (now() < a.tgl_mulai) then 0
+											when (now() >= a.tgl_mulai and now() <= a.terlambat) then 1
+											else 2
+										end) statuse
+										FROM tr_guru_tes a 
+										INNER JOIN m_guru b ON a.id_guru = b.id
+										INNER JOIN m_mapel c ON a.id_mapel = c.id 
+										WHERE a.id = '$uri4'")->row_array();
+
+			$a['dp'] = $this->db->query("SELECT * FROM m_siswa WHERE id = '" . $a['sess_konid'] . "'")->row_array();
+
+			// echo '<pre>';
+			// print_r("a : ");
+			// print_r($a);
+			// echo '</pre>';
+
+			//$q_status = $this->db->query();
+
+			if (!empty($a['du']) || !empty($a['dp'])) {
+				$tgl_selesai = $a['du']['tgl_mulai'];
+				//$tgl_selesai2 = strtotime($tgl_selesai);
+				//$tgl_baru = date('F j, Y H:i:s', $tgl_selesai);
+				//$tgl_terlambat = strtotime("+".$a['du']['terlambat']." minutes", $tgl_selesai2);	
+				$tgl_terlambat_baru = $a['du']['terlambat'];
+				$a['tgl_mulai'] = $tgl_selesai;
+				$a['terlambat'] = $tgl_terlambat_baru;
+				$a['p']	= "m_token";
+
+				// echo '<pre>';
+				// print_r("a : ");
+				// print_r($a);
+				// echo '</pre>';
+
+				$this->load->view('aaa', $a);
+			} else {
+				redirect('adm/ikuti_ujian');
+			}
+		} else {
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+
 
 			$cek_sdh_selesai = $this->db->query("SELECT id FROM tr_ikut_ujian WHERE id_tes = '$uri4' AND id_user = '" . $a['sess_konid'] . "' AND status = 'N'")->num_rows();
+
+			// echo '<pre>';
+			// print_r("cek_sdh_selesai : ");
+			// print_r($cek_sdh_selesai);
+			// echo '</pre>';
 
 			//sekalian validasi waktu sudah berlalu...
 			if ($cek_sdh_selesai < 1) {
 				//ini jika ujian belum tercatat, belum ikut
 				//ambil detil soal
-				$cek_detil_tes = $this->db->query("SELECT * FROM tr_guru_tes WHERE id = '$uri4'")->row();
+				$cek_detil_tes = $this->db->query("SELECT a.*, b.nama nama_guru, c.nama nama_mapel FROM tr_guru_tes a INNER JOIN m_guru b ON a.id_guru = b.id INNER JOIN m_mapel c ON a.id_mapel = c.id WHERE a.id = '$uri4'")->row();
 				$cek_detil_soal = $this->db->query("SELECT a.id FROM m_kelas a INNER JOIN tr_guru_tes b ON a.kelas=b.kelas WHERE b.id='$uri4'")->row();
 				$q_cek_sdh_ujian = $this->db->query("SELECT id FROM tr_ikut_ujian WHERE id_tes = '$uri4' AND id_user = '" . $a['sess_konid'] . "'");
 				$d_cek_sdh_ujian = $q_cek_sdh_ujian->row();
 				$cek_sdh_ujian	= $q_cek_sdh_ujian->num_rows();
 				$acakan = $cek_detil_tes->jenis == "acak" ? "ORDER BY RAND()" : "ORDER BY id ASC";
 
+				echo '<pre>';
+				print_r("cek_detil_tes : ");
+				print_r($cek_detil_tes);
+				print_r("cek_detil_soal : ");
+				print_r($cek_detil_soal);
+				print_r("q_cek_sdh_ujian : ");
+				print_r($q_cek_sdh_ujian);
+				print_r("d_cek_sdh_ujian : ");
+				print_r($d_cek_sdh_ujian);
+				print_r("cek_sdh_ujian : ");
+				print_r($cek_sdh_ujian);
+				print_r("acakan : ");
+				print_r($acakan);
+				echo '</pre>';
+
 				if ($cek_sdh_ujian < 1) {
+					// echo '<pre>';
+					// print_r("true : ");
+					// echo '</pre>';
 					$soal_urut_ok = array();
-					$q_soal			= $this->db->query("SELECT id, file, tipe_file, soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e, '' AS jawaban FROM m_soal WHERE id_mapel = '" . $cek_detil_tes->id_mapel . "' AND id_guru = '" . $cek_detil_tes->id_guru . "' AND id_kelas = '" . $cek_detil_soal->id . "' " . $acakan . " LIMIT " . $cek_detil_tes->jumlah_soal)->result();
+					$q_soal			= $this->db->query("SELECT id, file, tipe_file, soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e, '' AS jawaban FROM m_soal WHERE id_mapel = '" . $cek_detil_tes->id_mapel . "' AND id_guru = '" . $cek_detil_tes->id_guru . "' " . $acakan . " LIMIT " . $cek_detil_tes->jumlah_soal)->result();
 					$i = 0;
 					foreach ($q_soal as $s) {
 						$soal_per = new stdClass();
@@ -1617,16 +1751,65 @@ class Adm extends CI_Controller
 
 					$soal_urut_ok = $soal_urut_ok;
 				} else {
+
+					// echo '<pre>';
+					// print_r("false : ");
+					// echo '</pre>';
+
 					$q_ambil_soal 	= $this->db->query("SELECT * FROM tr_ikut_ujian WHERE id_tes = '$uri4' AND id_user = '" . $a['sess_konid'] . "'")->row();
+					// echo '<pre>';
+					// print_r("q_ambil_soal : ");
+					// print_r($q_ambil_soal);
+					// echo '</pre>';
 
 					$urut_soal 		= explode(",", $q_ambil_soal->list_jawaban);
+
+					// echo '<pre>';
+					// print_r("urut_soal : ");
+					// print_r($urut_soal);
+					// echo '</pre>';
+
 					$soal_urut_ok	= array();
+					// echo '<pre>';
+					// print_r("masuk for loop : ");
+					// echo '</pre>';
 					for ($i = 0; $i < sizeof($urut_soal); $i++) {
 						$pc_urut_soal = explode(":", $urut_soal[$i]);
 						$pc_urut_soal1 = empty($pc_urut_soal[1]) ? "''" : "'" . $pc_urut_soal[1] . "'";
 						$ambil_soal = $this->db->query("SELECT *, $pc_urut_soal1 AS jawaban FROM m_soal WHERE id = '" . $pc_urut_soal[0] . "'")->row();
 						$soal_urut_ok[] = $ambil_soal;
+
+						// echo '<pre>';
+						// print_r("pc_urut_soal : ");
+						// print_r($pc_urut_soal);
+						// print_r("pc_urut_soal1 : ");
+						// print_r($pc_urut_soal1);
+						// print_r("ambil_soal : ");
+						// print_r($ambil_soal);
+						// print_r("soal_urut_ok : ");
+						// print_r($soal_urut_ok);
+						// echo '</pre>';
 					}
+
+					// echo '<pre>';
+					// print_r("pc_urut_soal : ");
+					// print_r($pc_urut_soal);
+					// echo '</pre>';
+
+					// echo '<pre>';
+					// print_r("pc_urut_soal1 : ");
+					// print_r($pc_urut_soal1);
+					// echo '</pre>';
+
+					// echo '<pre>';
+					// print_r("ambil_soal : ");
+					// print_r($ambil_soal);
+					// echo '</pre>';
+
+					// echo '<pre>';
+					// print_r("soal_urut_ok : ");
+					// print_r($soal_urut_ok);
+					// echo '</pre>';
 
 					$detil_tes = $q_ambil_soal;
 
@@ -1645,34 +1828,68 @@ class Adm extends CI_Controller
 					$arr_jawab[$idx] = array("j" => $val, "r" => $rg);
 				}
 
+				// echo '<pre>';
+				// print_r("arr_jawab : ");
+				// print_r($arr_jawab);
+				// echo '</pre>';
+
+				// echo '<pre>';
+				// print_r("this->config->item('jml_opsi') : ");
+				// print_r($this->config->item('jml_opsi'));
+				// echo '</pre>';
+
+				// echo '<pre>';
+				// print_r("this->opsi[0] : ");
+				// print_r($this->opsi[0]);
+				// echo '</pre>';
+
 				$html = '';
+				$soal_jawaban = '';
 				$no = 1;
 				if (!empty($soal_urut_ok)) {
 					foreach ($soal_urut_ok as $d) {
-						$tampil_media = tampil_media("./upload/gambar_soal/" . $d->file, 'auto', 'auto');
+						// $tampil_media = tampil_media("./upload/gambar_soal/" . $d->file, 'auto', 'auto');
 						$vrg = $arr_jawab[$d->id]["r"] == "" ? "N" : $arr_jawab[$d->id]["r"];
 
 						$html .= '<input type="hidden" name="id_soal_' . $no . '" value="' . $d->id . '">';
 						$html .= '<input type="hidden" name="rg_' . $no . '" id="rg_' . $no . '" value="' . $vrg . '">';
 						$html .= '<div class="step" id="widget_' . $no . '">';
 
-						$html .= $d->soal . '<br>' . $tampil_media . '<div class="funkyradio">';
+						$soal_jawaban .= '<input type="hidden" name="id_soal_' . $no . '" value="' . $d->id . '">';
+						$soal_jawaban .= '<input type="hidden" name="rg_' . $no . '" id="rg_' . $no . '" value="' . $vrg . '">';
+						$soal_jawaban .= '<div class="step" id="widget_' . $no . '" style="margin-top: 16px; color: #3C3C3C; font-size: 14px">';
+
+						// $html .= $d->soal . '<br>' . $tampil_media . '<div class="funkyradio">';
+						$html .= $d->soal . '<br><div class="funkyradio">';
+						$soal_jawaban .= $d->soal . '<div style="margin-top: 16px">';
+
 
 						for ($j = 0; $j < $this->config->item('jml_opsi'); $j++) {
 							$opsi = "opsi_" . $this->opsi[$j];
 
 							$checked = $arr_jawab[$d->id]["j"] == strtoupper($this->opsi[$j]) ? "checked" : "";
 
-							$pc_pilihan_opsi = explode("#####", $d->$opsi);
+							// $pc_pilihan_opsi = explode("#####", $d->$opsi);
 
-							$tampil_media_opsi = (is_file('./upload/gambar_soal/' . $pc_pilihan_opsi[0]) || $pc_pilihan_opsi[0] != "") ? tampil_media('./upload/gambar_opsi/' . $pc_pilihan_opsi[0], 'auto', 'auto') : '';
+							// $tampil_media_opsi = (is_file('./upload/gambar_soal/' . $pc_pilihan_opsi[0]) || $pc_pilihan_opsi[0] != "") ? tampil_media('./upload/gambar_opsi/' . $pc_pilihan_opsi[0], 'auto', 'auto') : '';
 
-							$pilihan_opsi = empty($pc_pilihan_opsi[1]) ? "-" : $pc_pilihan_opsi[1];
+							// $pilihan_opsi = empty($pc_pilihan_opsi[1]) ? "-" : $pc_pilihan_opsi[1];
 
 							$html .= '<div class="funkyradio-success" onclick="return simpan_sementara();">
-				                <input type="radio" id="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" name="opsi_' . $no . '" value="' . strtoupper($this->opsi[$j]) . '" ' . $checked . '> <label for="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '"><div class="huruf_opsi">' . $this->opsi[$j] . '</div> <p>' . $pilihan_opsi . '</p><p>' . $tampil_media_opsi . '</p></label></div>';
+										<input type="radio" id="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" name="opsi_' . $no . '" value="' . strtoupper($this->opsi[$j]) . '" ' . $checked . ' /> 
+										<label for="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '">
+											<div class="huruf_opsi">' . $this->opsi[$j] . '</div> 
+											<p>' . $d->$opsi . '</p>
+										</label>
+									</div>';
+
+							$soal_jawaban .= '<div onclick="simpan_sementara()" style="display: flex; align-items: start; gap: 16px;">
+												<input style="display: block" type="radio" id="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" name="opsi_' . $no . '" value="' . strtoupper($this->opsi[$j]) . '" ' . $checked . ' /> 
+												<label for="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" style="font-weight: 400">' . $d->$opsi . '</label>
+											</div>';
 						}
 						$html .= '</div></div>';
+						$soal_jawaban .= '</div></div>';
 						$no++;
 					}
 				}
@@ -1680,8 +1897,11 @@ class Adm extends CI_Controller
 				$a['jam_mulai'] = $detil_tes->tgl_mulai;
 				$a['jam_selesai'] = $detil_tes->tgl_selesai;
 				$a['id_tes'] = $cek_detil_tes->id;
+				$a['waktu'] = $cek_detil_tes->waktu;
 				$a['no'] = $no;
 				$a['html'] = $html;
+				$a['soal_jawaban'] = $soal_jawaban;
+				$a['info_soal'] = $cek_detil_tes->nama_ujian . " / " . $cek_detil_tes->nama_mapel . " / " . $cek_detil_tes->nama_guru;
 
 				$this->load->view('v_ujian', $a);
 			} else {

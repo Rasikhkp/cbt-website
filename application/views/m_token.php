@@ -119,12 +119,12 @@
         </tr>
         <tr>
           <td>Waktu</td>
-          <td><?php echo $du['waktu']; ?></td>
+          <td><?php echo $du['waktu']; ?> menit</td>
         </tr>
         <tr>
           <td>Token</td>
           <td>
-            <input type="text" name="token" id="token" required class="form-control">
+            <input type=" text" name="token" id="token" required class="form-control">
           </td>
         </tr>
       </tbody>
