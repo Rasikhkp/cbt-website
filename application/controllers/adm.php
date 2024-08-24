@@ -1603,9 +1603,10 @@ class Adm extends CI_Controller
 				$ragu 		= $pc_dt[2];
 
 				$cek_jwb 	= $this->db->query("SELECT bobot, jawaban FROM m_soal WHERE id = '" . $id_soal . "'")->row();
+				$kunci_jawaban 	= strtoupper($cek_jwb->jawaban);
 				$total_bobot = $total_bobot + $cek_jwb->bobot;
 
-				if (($cek_jwb->jawaban == $jawaban)) {
+				if (($kunci_jawaban == $jawaban)) {
 					//jika jawaban benar 
 					$jumlah_benar++;
 					$nilai_bobot = $nilai_bobot + $cek_jwb->bobot;
@@ -1695,20 +1696,20 @@ class Adm extends CI_Controller
 				$cek_sdh_ujian	= $q_cek_sdh_ujian->num_rows();
 				$acakan = $cek_detil_tes->jenis == "acak" ? "ORDER BY RAND()" : "ORDER BY id ASC";
 
-				echo '<pre>';
-				print_r("cek_detil_tes : ");
-				print_r($cek_detil_tes);
-				print_r("cek_detil_soal : ");
-				print_r($cek_detil_soal);
-				print_r("q_cek_sdh_ujian : ");
-				print_r($q_cek_sdh_ujian);
-				print_r("d_cek_sdh_ujian : ");
-				print_r($d_cek_sdh_ujian);
-				print_r("cek_sdh_ujian : ");
-				print_r($cek_sdh_ujian);
-				print_r("acakan : ");
-				print_r($acakan);
-				echo '</pre>';
+				// echo '<pre>';
+				// print_r("cek_detil_tes : ");
+				// print_r($cek_detil_tes);
+				// print_r("cek_detil_soal : ");
+				// print_r($cek_detil_soal);
+				// print_r("q_cek_sdh_ujian : ");
+				// print_r($q_cek_sdh_ujian);
+				// print_r("d_cek_sdh_ujian : ");
+				// print_r($d_cek_sdh_ujian);
+				// print_r("cek_sdh_ujian : ");
+				// print_r($cek_sdh_ujian);
+				// print_r("acakan : ");
+				// print_r($acakan);
+				// echo '</pre>';
 
 				if ($cek_sdh_ujian < 1) {
 					// echo '<pre>';
@@ -1983,8 +1984,10 @@ class Adm extends CI_Controller
 
 			if ($this->config->item('tampil_nilai')) {
 				$a['data'] = "<div class='alert alert-danger'>Anda telah selesai mengikuti ujian ini pada : <strong style='font-size: 16px'>" . tjs($q_nilai->tgl_selesai, "l") . "</strong>.</div>";
+				$a['tgl_selesai'] = $q_nilai->tgl_selesai;
 			} else {
 				$a['data'] = "<div class='alert alert-danger'>Anda telah selesai mengikuti ujian ini pada : <strong style='font-size: 16px'>" . tjs($q_nilai->tgl_selesai, "l") . "</strong>.</div>";
+				$a['tgl_selesai'] = $q_nilai->tgl_selesai;
 			}
 		}
 		$this->load->view('aaa', $a);
