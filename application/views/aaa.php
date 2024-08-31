@@ -5,9 +5,10 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
    <meta name="apple-mobile-web-app-capable" content="yes">
-   <link href="<?php echo base_url(); ?>___/css/bootstrap.css" rel="stylesheet">
+   <!-- <link href="<?php echo base_url(); ?>___/css/bootstrap.css" rel="stylesheet"> -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <link href="<?php echo base_url(); ?>___/css/style.css" rel="stylesheet">
-   <link href="<?php echo base_url(); ?>___/css/sidebar.css" rel="stylesheet">
+   <link href="<?php echo base_url(); ?>___/css/style2.css" rel="stylesheet">
    <link href="<?php echo base_url(); ?>___/plugin/fa/css/font-awesome.min.css" rel="stylesheet">
    <link href="<?php echo base_url(); ?>___/plugin/datatables/dataTables.bootstrap.css" rel="stylesheet">
    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>___/img/kemenag.png">
@@ -60,7 +61,8 @@
 
 
    <script src="<?php echo base_url(); ?>___/js/jquery-1.11.3.min.js"></script>
-   <script src="<?php echo base_url(); ?>___/js/bootstrap.js"></script>
+   <!-- <script src="<?php echo base_url(); ?>___/js/bootstrap.js"></!--> -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
    <script src="<?php echo base_url(); ?>___/plugin/datatables/jquery.dataTables.min.js"></script>
    <script src="<?php echo base_url(); ?>___/plugin/datatables/dataTables.bootstrap.min.js"></script>
    <script src="<?php echo base_url(); ?>___/plugin/jquery_zoom/jquery.zoom.min.js"></script>

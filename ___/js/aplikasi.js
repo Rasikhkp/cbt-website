@@ -13,7 +13,7 @@ let isDropdownHidden = true;
 const renderTable = (columns, server) => {
     new gridjs.Grid({
         pagination: {
-            limit: 5,
+            limit: 10,
             summary: false,
         },
         search: true,
@@ -823,7 +823,7 @@ function m_siswa_non_aktif(id) {
 }
 //guru
 function m_guru_e(id) {
-    $("#m_guru").modal("show");
+    toggle_modal_by_id("#modal-tambah-guru");
     $.ajax({
         type: "GET",
         url: base_url + "adm/m_guru/det/" + id,
@@ -871,7 +871,7 @@ function m_guru_h(id) {
     return false;
 }
 function m_guru_u(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD OTOMATIS NIP")) {
+    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/user/" + id,
@@ -888,7 +888,7 @@ function m_guru_u(id) {
 }
 
 function m_guru_ur(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD OTOMATIS N I P")) {
+    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/user_reset/" + id,
@@ -1182,4 +1182,28 @@ function rubah_password_s() {
         }
     });
     return false;
+}
+
+function toggle_modal_by_id(id) {
+    const modalEl = $(id);
+
+    const display = modalEl.css("display");
+    if (display === "flex") {
+        modalEl.animate({ opacity: "0%" }, 200);
+
+        $("body").css({
+            overflow: "auto",
+            marginRight: "0",
+        });
+
+        modalEl.css("display", "none");
+    } else {
+        $("body").css({
+            overflow: "hidden",
+            marginRight: "17px",
+        });
+
+        modalEl.css("display", "flex");
+        modalEl.animate({ opacity: "100%" }, 200);
+    }
 }

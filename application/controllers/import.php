@@ -76,10 +76,10 @@ class Import extends CI_Controller
         move_uploaded_file($_FILES["import_excel"]["tmp_name"], $target_file . $_FILES['import_excel']['name']);
 
         $file   = explode('.', $_FILES['import_excel']['name']);
+
         $length = count($file);
 
         if ($file[$length - 1] == 'xlsx' || $file[$length - 1] == 'xls') {
-
             $tmp    = './upload/temp/' . $_FILES['import_excel']['name'];
             //Baca dari tmp folder jadi file ga perlu jadi sampah di server :-p
 
@@ -102,9 +102,10 @@ class Import extends CI_Controller
 
             $strq = "INSERT INTO m_guru (nip, nama) VALUES ";
 
-            $strq .= implode(",", $data) . ";";
-
-            $this->db->query($strq);
+            if (!empty($data)) {
+                $strq .= implode(",", $data) . ";";
+                $this->db->query($strq);
+            }
         } else {
             exit('Bukan File Excel...'); //pesan error tipe file tidak tepat
         }

@@ -686,14 +686,37 @@ class Adm extends CI_Controller
 			exit();
 		} else if ($uri3 == "data") {
 			$data = $this->db->query("SELECT a.*, (SELECT COUNT(id) FROM m_admin WHERE level = 'guru' AND kon_id = a.id) AS ada
-											FROM m_guru a")->result_array();
+											FROM m_guru a ORDER BY id DESC")->result_array();
 
 			j(array("data" => $data));
 
 			exit;
+		} else if ($uri3 == "import") {
+			$a['p']	= "f_guru_import";
+		} else if ($uri3 == "aktifkan_semua_guru") {
+			$q_get_user = $this->db->query("select 
+								a.id, a.nama, a.nip, ifnull(b.username,'N') usernya
+								from m_guru a 
+								left join m_admin b on concat(b.level,b.kon_id) = concat('guru',a.id)")->result_array();
+			$jml_aktif = 0;
+			if (!empty($q_get_user)) {
+				foreach ($q_get_user as $j) {
+					if ($j['usernya'] == "N") {
+						$this->db->query("INSERT INTO m_admin VALUES (null, '" . $j['nip'] . "', md5('" . $j['nip'] . "'), 'guru', '" . $j['id'] . "')");
+						$jml_aktif++;
+					}
+				}
+			}
+
+			$ret_arr['status'] 	= "ok";
+			$ret_arr['caption']	= $jml_aktif . " user diaktifkan";
+			j($ret_arr);
+			exit();
 		} else {
+
 			$a['p']	= "m_guru";
 		}
+
 		$this->load->view('aaa', $a);
 	}
 	public function m_mapel()
