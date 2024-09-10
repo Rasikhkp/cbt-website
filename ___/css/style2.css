@@ -156,78 +156,34 @@ body {
     margin-bottom: 1rem;
     display: flex;
     gap: 2rem;
-    justify-content: space-between;
-}
-
-.test-result-info-card table,
-.test-result-info-card td,
-.test-result-info-card th {
-    font-weight: 500;
-    font-size: 14px;
-    border: 1px solid rgb(230, 228, 228);
+    /* justify-content: space-between; */
 }
 
 .test-result-info-card table {
-    border-radius: 6px;
     border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 6px;
     overflow: hidden;
+    border: 1px solid rgb(184, 184, 184);
+    font-weight: 500;
+    font-size: 14px;
 }
 
 .test-result-info-card td,
 .test-result-info-card th {
+    border-bottom: 1px solid rgb(184, 184, 184);
+    border-right: 1px solid rgb(184, 184, 184);
     padding: 1rem;
 }
 
-.test-result-info-card table th:last-child {
-    width: 320px;
+.test-result-info-card tr:last-child td {
+    border-bottom: none;
 }
 
-/* .test-result-info-card table th:first-child {
-    width: 200px;
-} */
-
-.test-result-info-card table tr:first-child td:first-child {
-    border: 1px solid rgb(230, 228, 228);
-    border-top-left-radius: 6px;
-}
-
-.test-result-info-card table tr:first-child td:last-child {
-    border-top-right-radius: 6px;
-}
-
-.test-result-info-card table tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-}
-
-.test-result-info-card table tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-}
-
-/* .test-result-info-card div {
-    display: grid;
-    border-radius: 8px;
-    border-left: 1px solid grey;
-    border-right: 1px solid grey;
-    grid-template-columns: 30% 70%;
-    justify-content: start;
-    align-content: start;
-    overflow: hidden;
-    flex-grow: 1;
-}
-
-.test-result-info-card div p {
-    margin: 0;
-    padding: 1rem;
-    border: 1px solid grey;
-}
-
-.test-result-info-card div p:nth-child(odd) {
-    border-left: none;
-}
-
-.test-result-info-card div p:nth-child(even) {
+.test-result-info-card th:last-child,
+.test-result-info-card td:last-child {
     border-right: none;
-} */
+}
 
 .my-table-card {
     padding: 1rem;
@@ -249,7 +205,6 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
     border: 1px solid grey;
-    z-index: 100;
 }
 
 .my-dropdown div:first-child {
@@ -312,7 +267,7 @@ hr {
     font-family: "Poppins";
     font-weight: 500;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 8px;
     font-size: 13px;
@@ -1030,14 +985,17 @@ input[type="radio"]:checked + .kunci-button {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.75);
+    padding: 32px 0px;
     display: none;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     opacity: 0;
     backdrop-filter: blur(4px);
+    overflow: auto;
 }
 
 .my-modal-content {
+    width: 1000px;
     background-color: white;
     border-radius: 12px;
     border: 2px solid rgb(164, 164, 164);
@@ -1077,4 +1035,24 @@ input[type="radio"]:checked + .kunci-button {
 .my-modal-description {
     font-size: 14px;
     color: #71717a;
+}
+
+.exam-card {
+    /* box-shadow: 0 0 20px 1px rgb(196, 196, 196); */
+    border: 2px solid rgb(238, 238, 238);
+    overflow: hidden;
+    background-color: white;
+    border-radius: 8px;
+    width: 295px;
+    height: fit-content;
+    color: rgb(68, 68, 68);
+}
+
+.exam-card-body {
+    padding: 1rem;
+}
+
+.exam-card-footer {
+    border-top: 2px solid rgb(238, 238, 238);
+    padding: 1rem;
 }

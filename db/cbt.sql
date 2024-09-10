@@ -40,7 +40,7 @@ CREATE TABLE `m_admin` (
 --
 
 INSERT INTO `m_admin` (`id`, `username`, `password`, `level`, `kon_id`) VALUES
-(1, 'root', 'aabb2100033f0352fe7458e412495148', 'admin', 0);
+(1, 'root', '63a9f0ea7bb98050796b649e85481845', 'admin', 0);
 
 -- --------------------------------------------------------
 

@@ -367,7 +367,7 @@ class Adm extends CI_Controller
 			exit();
 		} else if ($uri3 == "data") {
 			$data = $this->db->query("SELECT a.*, (SELECT COUNT(id) FROM m_admin WHERE level = 'siswa' AND kon_id = a.id) AS ada
-											FROM m_siswa a ")->result_array();
+											FROM m_siswa a ORDER BY id DESC")->result_array();
 
 			j(array("data" => $data));
 
@@ -614,6 +614,12 @@ class Adm extends CI_Controller
 			$this->db->query("DELETE FROM m_admin WHERE level = 'guru' AND kon_id = '" . $uri4 . "'");
 			$ret_arr['status'] 	= "ok";
 			$ret_arr['caption']	= "hapus sukses";
+			j($ret_arr);
+			exit();
+		} else if ($uri3 == "non_aktifkan") {
+			$this->db->query("DELETE FROM m_admin WHERE level = 'guru' AND kon_id = '" . $uri4 . "'");
+			$ret_arr['status'] 	= "ok";
+			$ret_arr['caption']	= "disable sukses";
 			j($ret_arr);
 			exit();
 		} else if ($uri3 == "user") {
@@ -1278,7 +1284,7 @@ class Adm extends CI_Controller
 			$q_datanya = $this->db->query("SELECT a.*, b.nama AS mapel
 												FROM tr_guru_tes a
 									        	INNER JOIN m_mapel b ON a.id_mapel = b.id 
-									        	WHERE a.id_guru = '" . $a['sess_konid'] . "'")->result_array();
+									        	WHERE a.id_guru = '" . $a['sess_konid'] . "' ORDER BY id DESC")->result_array();
 			$data = array();
 			// $no = ($start + 1);
 			foreach ($q_datanya as $d) {
@@ -1453,32 +1459,14 @@ class Adm extends CI_Controller
 		$a['sess_user'] = $this->session->userdata('admin_user');
 		$a['sess_konid'] = $this->session->userdata('admin_konid');
 
-		// echo '<pre>';
-		// print_r('a : ');
-		// print_r($a);
-		// echo '</pre>';
-
 		//var def uri segment
 		$uri2 = $this->uri->segment(2);
 		$uri3 = $this->uri->segment(3);
 		$uri4 = $this->uri->segment(4);
 
-		// echo '<pre>';
-		// print_r('$uri2 : ');
-		// print_r($uri2);
-		// print_r('$uri3 : ');
-		// print_r($uri3);
-		// print_r('$uri4 : ');
-		// print_r($uri4);
-		// echo '</pre>';
 
 		//var post from json
 		$p = json_decode(file_get_contents('php://input'));
-
-		// echo '<pre>';
-		// print_r('$p : ');
-		// print_r($p);
-		// echo '</pre>';
 
 		//return as json
 		$jeson = array();
@@ -1495,40 +1483,9 @@ class Adm extends CI_Controller
 									INNER JOIN m_mapel b ON a.id_mapel = b.id
 									INNER JOIN m_guru c ON a.id_guru = c.id
 									LEFT JOIN tr_ikut_ujian d ON CONCAT('" . $a['sess_konid'] . "',a.id) = CONCAT(d.id_user,d.id_tes)
-									ORDER BY a.tgl_mulai ASC")->result();
-		//echo $this->db->last_query();
+									ORDER BY a.tgl_mulai DESC")->result();
 		$a['p']	= "m_list_ujian_siswa";
 
-
-		// echo '<pre>';
-		// print_r('$x : ');
-		// print_r($x);
-		// print_r('$a : ');
-		// print_r($a);
-		// echo '</pre>';
-
-		// if ($uri3 == "data") {
-
-		// 	$data = $this->db->query("SELECT 
-		// 							a.id, a.nama_ujian, a.jumlah_soal, a.waktu, a.kelas, a.jurusan, a.tgl_mulai,
-		// 							b.nama nmmapel,
-		// 							c.nama nmguru,
-		// 							IF((d.status='Y' AND NOW() BETWEEN d.tgl_mulai AND d.tgl_selesai),'Sedang Tes',
-		// 							IF(d.status='Y' AND NOW() NOT BETWEEN d.tgl_mulai AND d.tgl_selesai,'Waktu Habis',
-		// 							IF(d.status='N','Selesai','Belum Ikut'))) status
-		// 							FROM tr_guru_tes a
-		// 							INNER JOIN m_mapel b ON a.id_mapel = b.id
-		// 							INNER JOIN m_guru c ON a.id_guru = c.id
-		// 							LEFT JOIN tr_ikut_ujian d ON CONCAT('" . $a['sess_konid'] . "',a.id) = CONCAT(d.id_user,d.id_tes)
-		// 							WHERE a.kelas = '" . $x->jurusan . "' AND a.jurusan LIKE '%" . $x->id_jurusan . "%' AND a.tgl_mulai LIKE '%" . $d . "%'
-		// 							ORDER BY a.tgl_mulai ASC")->result_array();
-
-		// 	j(['data' => $data]);
-		// 	exit;
-		// }
-
-		// $this->load->view('m_list_ujian_siswa');
-		// $a['p'] = 'm_list_ujian_siswa';
 		$this->load->view('aaa', $a);
 	}
 	public function ikut_ujian()

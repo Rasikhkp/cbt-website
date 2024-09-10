@@ -31,18 +31,16 @@
   <form name="f_guru" id="f_guru" onsubmit="return m_guru_s();" class="my-modal-content">
     <div class="my-modal-header">
       <button type="button" onclick="toggle_modal_by_id('#modal-tambah-guru')" class="my-modal-close-btn"><box-icon name='x'></box-icon></button>
-      <div class="my-modal-title">Tambah Panitia</div>
+      <div class="my-modal-title">Data Panitia</div>
       <div class="my-modal-description">Masukkan nama dan kode panitia dibawah.</div>
     </div>
 
     <div class="my-modal-body">
       <input type="hidden" name="id" id="id" value="0">
-      <div class="mb-3">
-        <label for="nama" class="form-label">Nama</label>
+      <div style="display: grid; grid-template-columns: 1fr 4fr; gap: 16px 40px">
+        <label for="nama" class="form-label text-end">Nama</label>
         <input type="text" class="form-control" id="nama" name="nama" required>
-      </div>
-      <div class="mb-3">
-        <label for="nip" class="form-label">Kode</label>
+        <label for="nip" class="form-label text-end">Kode</label>
         <input type="number" class="form-control" id="nip" name="nip" required>
       </div>
     </div>
@@ -50,6 +48,33 @@
     <div class="my-modal-footer">
       <div class="d-flex justify-content-end gap-2">
         <button type="button" onclick="toggle_modal_by_id('#modal-tambah-guru')" class="b b-danger">Batalkan</button>
+        <button type="submit" class="b b-primary">Simpan</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="my-modal" id="modal-tambah-matkul">
+  <form name="f_siswa_matkul" id="f_siswa_matkul" method="post" onsubmit="return m_guru_matkul_s();" class="my-modal-content">
+    <div class="my-modal-header">
+      <button type="button" onclick="toggle_modal_by_id('#modal-tambah-matkul')" class="my-modal-close-btn"><box-icon name='x'></box-icon></button>
+      <div class="my-modal-title">Matkul Ditangani</div>
+      <div class="my-modal-description">Pilih matkul-matkul yang ditangani dibawah ini</div>
+    </div>
+
+    <div class="my-modal-body">
+      <!-- <input type="hidden" name="id" id="id" value="0">
+      <div style="display: grid; grid-template-columns: 1fr 4fr; gap: 16px 40px">
+        <label for="nama" class="form-label text-end">Nama</label>
+        <input type="text" class="form-control" id="nama" name="nama" required>
+        <label for="nip" class="form-label text-end">Kode</label>
+        <input type="number" class="form-control" id="nip" name="nip" required>
+      </div> -->
+    </div>
+
+    <div class="my-modal-footer">
+      <div class="d-flex justify-content-end gap-2">
+        <button type="button" onclick="toggle_modal_by_id('#modal-tambah-matkul')" class="b b-danger">Batalkan</button>
         <button type="submit" class="b b-primary">Simpan</button>
       </div>
     </div>

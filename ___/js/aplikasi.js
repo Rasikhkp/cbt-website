@@ -1,3 +1,5 @@
+const notyf = new Notyf();
+
 let isOpen = localStorage.getItem("isOpen") || "buka";
 
 if (isOpen === "buka") {
@@ -556,7 +558,6 @@ function pagination(indentifier, url, config) {
 
 function login(e) {
     console.log("masuk login");
-    const notyf = new Notyf();
 
     e = e || window.event;
     var data = $("#f_login").serialize();
@@ -614,7 +615,7 @@ function m_soal_h(id) {
 }
 //ujian
 function m_ujian_e(id) {
-    $("#m_ujian").modal("show");
+    toggle_modal_by_id("#modal-tambah-ujian");
     $.ajax({
         type: "GET",
         url: base_url + "adm/m_ujian/det/" + id,
@@ -692,7 +693,8 @@ function refresh_token(id) {
 /* admindos las puerta conos il grande partite */
 //siswa
 function m_siswa_e(id) {
-    $("#m_siswa").modal("show");
+    // $("#m_siswa").modal("show");
+    toggle_modal_by_id("#modal-tambah-peserta");
     $.ajax({
         type: "GET",
         url: base_url + "adm/m_siswa/det/" + id,
@@ -758,7 +760,7 @@ function m_siswa_hs() {
     return false;
 }
 function m_siswa_u(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD OTOMATIS N I S")) {
+    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/user/" + id,
@@ -774,7 +776,7 @@ function m_siswa_u(id) {
     return false;
 }
 function m_siswa_ur(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD OTOMATIS N I S")) {
+    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/user_reset/" + id,
@@ -887,6 +889,23 @@ function m_guru_u(id) {
     return false;
 }
 
+function m_guru_non_aktif(id) {
+    if (confirm("APAKAH ANDA YAKIN MENONAKTIFKAN USER INI?")) {
+        $.ajax({
+            type: "GET",
+            url: base_url + "adm/m_guru/non_aktifkan/" + id,
+            success: function (response) {
+                if (response.status == "ok") {
+                    window.location.assign(base_url + "adm/m_guru");
+                } else {
+                    alert(response.caption);
+                }
+            },
+        });
+        return false;
+    }
+}
+
 function m_guru_ur(id) {
     if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
         $.ajax({
@@ -921,17 +940,19 @@ function aktifkan_semua_guru() {
     return false;
 }
 function m_guru_matkul(id) {
+    toggle_modal_by_id("#modal-tambah-matkul");
     $.ajax({
         type: "GET",
         url: base_url + "adm/m_guru/ambil_matkul/" + id,
         success: function (data) {
             if (data.status == "ok") {
                 var jml_data = Object.keys(data.data).length;
-                var hate =
-                    '<div class="modal fade" id="m_siswa_matkul" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 id="myModalLabel">Setting Mata Pelajaran</h4></div><div class="modal-body"><form name="f_siswa_matkul" id="f_siswa_matkul" method="post" onsubmit="return m_guru_matkul_s();"><input type="hidden" name="id_mhs" id="id_mhs" value="' +
-                    id +
-                    '"><div id="konfirmasi"></div>';
+                // var hate =
+                //     '<div class="modal fade" id="m_siswa_matkul" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 id="myModalLabel">Setting Mata Pelajaran</h4></div><div class="modal-body"><form name="f_siswa_matkul" id="f_siswa_matkul" method="post" onsubmit="return m_guru_matkul_s();"><input type="hidden" name="id_mhs" id="id_mhs" value="' +
+                //     id +
+                //     '"><div id="konfirmasi"></div>';
 
+                let hate = `<input type="hidden" name="id_mhs" id="id_mhs" value="${id}">`;
                 if (jml_data > 0) {
                     $.each(data.data, function (i, item) {
                         if (item.ok == "1") {
@@ -957,10 +978,11 @@ function m_guru_matkul(id) {
                 } else {
                     hate += "Belum ada data..";
                 }
-                hate +=
-                    '<div class="modal-footer"><button class="btn btn-primary" type="submit">Simpan</button><button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button></div></form></div></div></div>';
-                $("#tampilkan_modal").html(hate);
-                $("#m_siswa_matkul").modal("show");
+                // hate +=
+                //     '<div class="modal-footer"><button class="btn btn-primary" type="submit">Simpan</button><button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button></div></form></div></div></div>';
+                $("#modal-tambah-matkul .my-modal-body").html(hate);
+                console.log("hate", hate);
+                // $("#m_siswa_matkul").modal("show");
             } else {
                 console.log("gagal");
             }
@@ -989,7 +1011,7 @@ function m_guru_matkul_s() {
 }
 //mapel
 function m_mapel_e(id) {
-    $("#m_mapel").modal("show");
+    toggle_modal_by_id("#modal-tambah-kategori");
     $.ajax({
         type: "GET",
         url: base_url + "adm/m_mapel/det/" + id,
@@ -1142,19 +1164,14 @@ function __ambil_jumlah_soal(id_mapel) {
     });
     return false;
 }
+
 function rubah_password() {
+    toggle_modal_by_id("#modal-reset-password");
     $.ajax({
         type: "GET",
         url: base_url + "adm/rubah_password/",
-        success: function (response) {
-            var teks_modal =
-                '<div class="modal fade" id="m_ubah_password" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 id="myModalLabel">UPDATE PASSWORD</h4></div><div class="modal-body"><form name="f_ubah_password" id="f_ubah_password" onsubmit="return rubah_password_s();" method="post"><input type="hidden" name="id" id="id" value="' +
-                response.id +
-                '"><div id="konfirmasi"></div><table class="table table-form"><tr><td style="width: 25%">Username</td><td style="width: 75%"><input type="text" class="form-control" name="u1" id="u1" required value="' +
-                response.username +
-                '" readonly></td></tr><tr><td style="width: 25%">Current Password</td><td style="width: 75%"><input type="password" class="form-control" name="p1" id="p1" required></td></tr><tr><td style="width: 25%">New Password</td><td style="width: 75%"><input type="password" class="form-control" name="p2" id="p2" required></td></tr><tr><td style="width: 25%">Reenter Password</td><td style="width: 75%"><input type="password" class="form-control" name="p3" id="p3" required></td></tr></table></div><div class="modal-footer"><button class="btn btn-primary" onclick="return rubah_password_s();"><i class="fa fa-check"></i> Simpan</button><button class="btn" data-dismiss="modal" aria-hidden="true"><i class="fa fa-minus-circle"></i> Tutup</button></div></form></div></div></div>';
-            $("#tampilkan_modal").html(teks_modal);
-            $("#m_ubah_password").modal("show");
+        success: function (data) {
+            $("#u1").val(data.username);
             $("#p1").focus();
         },
     });
@@ -1163,6 +1180,7 @@ function rubah_password() {
 function rubah_password_s() {
     var f_asal = $("#f_ubah_password");
     var form = getFormData(f_asal);
+
     $.ajax({
         type: "POST",
         url: base_url + "adm/rubah_password/simpan",
@@ -1170,15 +1188,12 @@ function rubah_password_s() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
     }).done(function (response) {
+        console.log("response", response);
         if (response.status == "ok") {
-            $("#konfirmasi").html(
-                '<div class="alert alert-success">' + response.msg + "</div>"
-            );
-            $("#m_ubah_password").modal("hide");
+            notyf.success(response.msg);
+            toggle_modal_by_id("#modal-reset-password");
         } else {
-            $("#konfirmasi").html(
-                '<div class="alert alert-danger">' + response.msg + "</div>"
-            );
+            notyf.error(response.msg);
         }
     });
     return false;
@@ -1206,4 +1221,30 @@ function toggle_modal_by_id(id) {
         modalEl.css("display", "flex");
         modalEl.animate({ opacity: "100%" }, 200);
     }
+}
+function formatDateTime(dateTimeStr) {
+    const date = new Date(dateTimeStr);
+
+    const months = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+    ];
+
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    return `${day} ${month} ${year}, ${hours}:${minutes}`;
 }

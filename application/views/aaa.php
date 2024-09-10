@@ -14,6 +14,7 @@
    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>___/img/kemenag.png">
    <link rel="stylesheet" href="<?php echo base_url(); ?>___/plugin/nice-select2/dist/css/nice-select2.css" />
    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
    <title>HOME - <?php echo $this->config->item('nama_aplikasi') . " " . $this->config->item('versi'); ?></title>
 </head>
@@ -38,7 +39,7 @@
 
       <hr>
 
-      <button onclick="return rubah_password();" class="dropdown-item">
+      <button onclick="toggleDropdown(); return rubah_password();" class="dropdown-item">
          <div class="dropdown-icon"><box-icon color="grey" name='reset'></box-icon></div>
          <div class="dropdown-action">Reset password</div>
       </button>
@@ -59,6 +60,36 @@
 
    <div id="tampilkan_modal"></div>
 
+   <div class="my-modal" id="modal-reset-password">
+      <form name="f_ubah_password" id="f_ubah_password" onsubmit="return rubah_password_s();" method="post" class="my-modal-content" style="width: 600px;">
+         <div class="my-modal-header">
+            <button type="button" onclick="toggle_modal_by_id('#modal-reset-password')" class="my-modal-close-btn"><box-icon name='x'></box-icon></button>
+            <div class="my-modal-title">Ubah Password</div>
+            <div class="my-modal-description">Masukkan data dibawah untuk mengubah password Anda.</div>
+         </div>
+
+         <div class="my-modal-body">
+            <div style="display: grid; grid-template-columns: 2fr 4fr; gap: 16px 40px">
+               <label for="nama" class="form-label text-end">Username</label>
+               <input type="text" class="form-control" id="u1" name="u1" readonly>
+               <label for="nama" class="form-label text-end">Current Password</label>
+               <input type="password" class="form-control" id="p1" name="p1" required>
+               <label for="nama" class="form-label text-end">New Password</label>
+               <input type="password" class="form-control" id="p2" name="p2" required>
+               <label for="nama" class="form-label text-end">Confirm Password</label>
+               <input type="password" class="form-control" id="p3" name="p3" required>
+            </div>
+         </div>
+
+         <div class="my-modal-footer">
+            <div class="d-flex justify-content-end gap-2">
+               <button type="button" onclick="toggle_modal_by_id('#modal-reset-password')" class="b b-danger">Batalkan</button>
+               <button type="submit" class="b b-primary">Simpan</button>
+            </div>
+         </div>
+      </form>
+   </div>
+
 
    <script src="<?php echo base_url(); ?>___/js/jquery-1.11.3.min.js"></script>
    <!-- <script src="<?php echo base_url(); ?>___/js/bootstrap.js"></!--> -->
@@ -72,6 +103,7 @@
    <script src="<?php echo base_url(); ?>___/plugin/nice-select2/dist/js/nice-select2.js"></script>
    <script src="<?php echo base_url(); ?>___/plugin/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
    <script src="<?php echo base_url(); ?>___/plugin/eqneditor/eqneditor.js" referrerpolicy="origin"></script>
+   <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
    <script type="text/javascript">
       var base_url = "<?php echo base_url(); ?>";

@@ -4,36 +4,49 @@
 function tjs($tgl, $tipe)
 {
 	if ($tgl != "0000-00-00 00:00:00") {
-		$pc_satu	= explode(" ", $tgl);
+		// Split the date and time
+		$pc_satu = explode(" ", $tgl);
 		if (count($pc_satu) < 2) {
-			$tgl1		= $pc_satu[0];
-			$jam1		= "";
+			$tgl1 = $pc_satu[0];
+			$jam1 = "";
 		} else {
-			$jam1		= $pc_satu[1];
-			$tgl1		= $pc_satu[0];
+			$jam1 = $pc_satu[1];
+			$tgl1 = $pc_satu[0];
 		}
 
-		$pc_dua		= explode("-", $tgl1);
-		$tgl		= $pc_dua[2];
-		$bln		= $pc_dua[1];
-		$thn		= $pc_dua[0];
+		// Split the date into year, month, and day
+		$pc_dua = explode("-", $tgl1);
+		$tgl = $pc_dua[2];
+		$bln = $pc_dua[1];
+		$thn = $pc_dua[0];
 
-		$bln_pendek		= array("Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des");
-		$bln_panjang	= array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+		// Define month names in short and long forms
+		$bln_pendek = array("Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des");
+		$bln_panjang = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
 
-		$bln_angka		= intval($bln) - 1;
+		$bln_angka = intval($bln) - 1;
 
+		// Choose the month format based on the type
 		if ($tipe == "l") {
 			$bln_txt = $bln_panjang[$bln_angka];
 		} else if ($tipe == "s") {
 			$bln_txt = $bln_pendek[$bln_angka];
 		}
 
-		return $tgl . " " . $bln_txt . " " . $thn . "  " . $jam1;
+		// Format the time to hh:mm
+		if ($jam1) {
+			$jam_parts = explode(":", $jam1);
+			$jam1 = str_pad($jam_parts[0], 2, "0", STR_PAD_LEFT) . ":" . str_pad($jam_parts[1], 2, "0", STR_PAD_LEFT);
+		} else {
+			$jam1 = "00:00"; // Default time if no time part is present
+		}
+
+		return $tgl . " " . $bln_txt . " " . $thn . ", pukul " . $jam1;
 	} else {
 		return "Tgl Salah";
 	}
 }
+
 
 function hari($wekday)
 {
