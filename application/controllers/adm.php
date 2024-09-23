@@ -800,27 +800,11 @@ class Adm extends CI_Controller
 		$p = json_decode(file_get_contents('php://input'));
 		//return as json
 		$jeson = array();
-		if ($a['sess_level'] == "guru") {
-			$a['p_guru'] = obj_to_array($this->db->query("SELECT * FROM m_guru WHERE id = '" . $a['sess_konid'] . "'")->result(), "id,nama");
-			// $a['p_mapel'] = obj_to_array($this->db->query("SELECT 
-			// 								b.id, b.nama
-			// 								FROM tr_guru_mapel a
-			// 								INNER JOIN m_mapel b ON a.id_mapel = b.id
-			// 								WHERE a.id_guru = '" . $a['sess_konid'] . "'")->result(), "id,nama");
-			$a['p_kelas'] = obj_to_array($this->db->query("SELECT * FROM m_kelas")->result(), "id,kelas");
-		} else {
-			$a['p_guru'] = $this->db->query("SELECT * FROM m_guru")->result_array();
-			// $a['p_mapel'] = obj_to_array($this->db->query("SELECT 
-			// 								b.id, b.nama
-			// 								FROM tr_guru_mapel a
-			// 								INNER JOIN m_mapel b ON a.id_mapel = b.id")->result(), "id,nama");
-			$a['p_mapel'] = $this->db->query("SELECT 
-											b.id, b.nama
-											FROM tr_guru_mapel a
-											INNER JOIN m_mapel b ON a.id_mapel = b.id")->result_array();
+		$id_guru = $this->session->userdata('admin_level') == "guru" ? "WHERE a.id_guru = '" . $a['sess_konid'] . "'" : "";
 
-			$a['p_kelas'] = obj_to_array($this->db->query("SELECT * FROM m_kelas")->result(), "id,kelas");
-		}
+		$a['p_guru'] = $this->db->query("SELECT DISTINCT a.id_guru, b.nama FROM tr_guru_mapel a INNER JOIN m_guru b ON a.id_guru = b.id $id_guru")->result_array();
+		$a['p_mapel'] = $this->db->query("SELECT a.*, b.nama FROM tr_guru_mapel a INNER JOIN m_mapel b ON a.id_mapel = b.id $id_guru")->result_array();
+
 		if ($uri3 == "det") {
 			$a = $this->db->query("SELECT * FROM m_soal WHERE id = '$uri4' ORDER BY id DESC")->row();
 			j($a);
@@ -1381,7 +1365,7 @@ class Adm extends CI_Controller
 			// 	AND b.nama LIKE '%" . $search['value'] . "%'")->num_rows();
 
 			$data = $this->db->query("
-	        	SELECT a.id, b.nama, a.nilai, a.jml_benar, a.nilai_bobot
+	        	SELECT a.id, a.id_tes, b.nama, a.nilai, a.jml_benar, a.nilai_bobot
 				FROM tr_ikut_ujian a
 				INNER JOIN m_siswa b ON a.id_user = b.id
 				WHERE a.id_tes = '$uri4'")->result_array();
@@ -1419,6 +1403,36 @@ class Adm extends CI_Controller
 
 			j(["data" => $data]);
 			exit;
+		} else if ($uri3 == "detail_jawaban") {
+			$detail = $this->db->query("SELECT a.*, b.nama AS nama_siswa, d.nama AS nama_guru, c.nama_ujian, c.jumlah_soal FROM tr_ikut_ujian a
+										JOIN m_siswa b ON a.id_user = b.id
+										JOIN tr_guru_tes c ON a.id_tes = c.id 
+										JOIN m_guru d ON c.id_guru = d.id
+										WHERE a.id = '$uri4'
+			")->row_array();
+
+			$soal = $this->db->query('SELECT * FROM m_soal WHERE id IN (' . $detail["list_soal"] . ')')->result_array();
+
+			$items = explode(',', $detail['list_jawaban']);
+
+			$jawaban_siswa = [];
+
+			foreach ($items as $item) {
+				list($id, $answer, $doubt) = explode(':', $item);
+
+				$jawaban_siswa[$id] = $answer;
+			}
+
+			foreach ($soal as &$question) {
+				$id = $question['id'];
+				if (isset($jawaban_siswa[$id])) {
+					$question['jawaban_siswa'] = strtolower($jawaban_siswa[$id]);
+				}
+			}
+
+			$a['detail'] = $detail;
+			$a['soal'] = $soal;
+			$a['p'] = "m_detail_jawaban";
 		} else {
 			$a['p']	= "m_guru_tes_hasil";
 		}

@@ -345,16 +345,14 @@ $(document).ready(function () {
                         d.jml_benar,
                         d.nilai,
                         d.nilai_bobot,
-                        gridjs.html(`<a href="${
-                            base_url +
-                            "adm/h_ujian/batalkan_ujian/" +
-                            d.id +
-                            "/" +
-                            d.id_tes
-                        }" style="width: fit-content" class="b b-danger">
-                                        <box-icon size="20px" color="white" name='x'></box-icon>
-                                        Batalkan Ujian
-                                    </a>`),
+                        gridjs.html(`<div class="d-flex gap-2">
+                                        <a href="${base_url}adm/h_ujian/detail_jawaban/${d.id}" style="width: fit-content" class="b b-success"  title="Detail Jawaban">
+                                            <box-icon size="20px" color="white" name='show'></box-icon>
+                                        </a>
+                                        <a href="${base_url}adm/h_ujian/batalkan_ujian/${d.id}/${d.id_tes}" style="width: fit-content" class="b b-danger"  title="Batalkan Ujian">
+                                            <box-icon size="20px" color="white" name='x'></box-icon>
+                                        </a>
+                                    </div>`),
                     ]),
             };
 

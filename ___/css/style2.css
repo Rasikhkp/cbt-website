@@ -124,7 +124,7 @@ body {
 }
 
 .my-menu {
-    padding: 1rem 2rem;
+    padding: 2rem;
     flex: 1 1 0%;
     background-color: #f3f6f9;
 }
@@ -1055,4 +1055,17 @@ input[type="radio"]:checked + .kunci-button {
 .exam-card-footer {
     border-top: 2px solid rgb(238, 238, 238);
     padding: 1rem;
+}
+
+.jawaban-benar {
+    background-color: #67b173;
+}
+
+.jawaban-salah {
+    background-color: #f17171;
+}
+
+#jawaban > p {
+    margin: 0 !important;
+    padding: 0 !important;
 }

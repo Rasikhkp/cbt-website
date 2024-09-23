@@ -80,7 +80,7 @@ $uri4 = $this->uri->segment(4);
   <box-icon name='chevron-left' color='black'></box-icon>
 </button>
 
-<h2>Hasil Ujian</h2>
+<h2 class="mt-4">Hasil Ujian</h2>
 
 <!-- <div class="my-buttons-card" style="margin: 16px 0;">
   <div>
@@ -108,8 +108,8 @@ $uri4 = $this->uri->segment(4);
   <table>
     <tbody>
       <tr>
-        <th>Kategori</th>
-        <th><?php echo $detil_tes->namaMapel; ?></th>
+        <td>Kategori</td>
+        <td><?php echo $detil_tes->namaMapel; ?></td>
       </tr>
       <tr>
         <td>Panitia</td>
@@ -125,11 +125,11 @@ $uri4 = $this->uri->segment(4);
       </tr>
     </tbody>
   </table>
-  <table>
+  <table style="width: 200px">
     <tbody>
       <tr>
-        <th>Jumlah Soal</th>
-        <th><?php echo $detil_tes->jumlah_soal; ?></th>
+        <td>Jumlah Soal</td>
+        <td><?php echo $detil_tes->jumlah_soal; ?></td>
       </tr>
       <tr>
         <td>Tertinggi</td>

@@ -114,7 +114,12 @@ class Import extends CI_Controller
 
     public function soal()
     {
+        // $p = json_decode(file_get_contents('php://input'));
         $p = $this->input->post();
+
+        // echo '<pre>';
+        // print_r($p);
+        // echo '</pre>';
 
         $idx_baris_mulai = 3;
         $idx_baris_selesai = 107;
@@ -151,7 +156,7 @@ class Import extends CI_Controller
                 $kunci = $_sheet->getCell("H" . $j)->getCalculatedValue();
 
                 if ($soal != "") {
-                    $data[] = "('" . $p['id_guru'] . "', '" . $p['id_mapel'] . "', 'mau dihapus','" . $bobot . "', '" . $soal . "', '#####" . $opsi_a . "', '#####" . $opsi_b . "', '#####" . $opsi_c . "', '#####" . $opsi_d . "', '#####" . $opsi_e . "', '" . $kunci . "', NOW(), 0, 0)";
+                    $data[] = "('" . $p['id_guru'] . "', '" . $p['id_mapel'] . "', 'mau dihapus','" . $bobot . "', '" . $soal . "', '" . $opsi_a . "', '" . $opsi_b . "', '" . $opsi_c . "', '" . $opsi_d . "', '" . $opsi_e . "', '" . $kunci . "', NOW(), 0, 0)";
                 }
             }
 

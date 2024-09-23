@@ -12,7 +12,7 @@
       <box-icon name='plus' color='white' size="20px"></box-icon>
       Tambah
     </button>
-    <a href="<?php echo base_url(); ?>upload/format_import_guru.xlsx" class="b b-success">
+    <a href="<?php echo base_url(); ?>upload/format_import_panitia.xlsx" class="b b-success">
       <box-icon name='download' color='white' size="20px"></box-icon>
       Download Format Import
     </a>

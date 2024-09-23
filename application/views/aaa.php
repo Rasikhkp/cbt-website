@@ -115,6 +115,47 @@
       <script src="<?php echo base_url(); ?>___/plugin/ckeditor/ckeditor.js"></script>
    <?php endif; ?> -->
 
+   <?php if ($this->uri->segment(2) == "m_soal" && $this->uri->segment(3) == "import") : ?>
+      <script>
+         const mapels = <?= json_encode($p_mapel); ?>;
+         const gurus = <?= json_encode($p_guru); ?>;
+
+         const import_soal_guru_el = document.querySelector('#import-soal-guru')
+         const import_soal_mapel_el = document.querySelector('#import-soal-mapel')
+
+         const soal_guru_ns = NiceSelect.bind(import_soal_guru_el)
+         const soal_mapel_ns = NiceSelect.bind(import_soal_mapel_el)
+
+         soal_mapel_ns.disable()
+
+         const update_mapel_import = () => {
+
+            const selected_guru_id = import_soal_guru_el.value
+            console.log('gurus', gurus)
+            const filtered_mapel = mapels.filter(el => el.id_guru == selected_guru_id)
+
+            console.log('selected_guru_id', selected_guru_id)
+            console.log('filtered_mapel', filtered_mapel)
+
+            import_soal_mapel_el.innerHTML = `<option data-display="Select">Pilih Kategori</option>`
+
+            if (selected_guru_id !== 'Pilih Panitia') {
+
+               filtered_mapel.forEach(a => {
+                  import_soal_mapel_el.innerHTML += `<option value="${a.id_mapel}">${a.nama}</option>`
+
+                  soal_mapel_ns.update()
+                  soal_mapel_ns.enable()
+               })
+            } else {
+               import_soal_mapel_el.innerHTML = `<option data-display="Select">Pilih Kategori</option>`
+               soal_mapel_ns.update()
+               soal_mapel_ns.disable()
+            }
+         }
+      </script>
+   <?php endif; ?>
+
    <?php if ($this->uri->segment(2) == "m_soal" && $this->uri->segment(3) == "edit") : ?>
       <!-- <script src="<?php echo base_url(); ?>___/plugin/ckeditor/ckeditor.js"></script> -->
       <script>
