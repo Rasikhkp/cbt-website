@@ -1255,49 +1255,27 @@ class Adm extends CI_Controller
 			j($ret_arr);
 			exit();
 		} else if ($uri3 == "data") {
-			// $start = $this->input->post('start');
-			// $length = $this->input->post('length');
-			// $draw = $this->input->post('draw');
-			// $search = $this->input->post('search');
-			// $d_total_row = $this->db->query("SELECT a.id
-			//     	FROM tr_guru_tes a
-			//     	INNER JOIN m_mapel b ON a.id_mapel = b.id 
-			//     	WHERE a.id_guru = '" . $a['sess_konid'] . "' 
-			//         AND (a.nama_ujian LIKE '%" . $search['value'] . "%' 
-			// 		OR b.nama LIKE '%" . $search['value'] . "%')")->num_rows();
+
 			$q_datanya = $this->db->query("SELECT a.*, b.nama AS mapel
 												FROM tr_guru_tes a
 									        	INNER JOIN m_mapel b ON a.id_mapel = b.id 
 									        	WHERE a.id_guru = '" . $a['sess_konid'] . "' ORDER BY id DESC")->result_array();
 			$data = array();
-			// $no = ($start + 1);
 			foreach ($q_datanya as $d) {
 				$jenis_soal = $d['jenis'] == "acak" ? "Soal diacak" : "Soal urut";
 				$data_ok = array();
-				// $data_ok[0] = $no++;
+
 				$data_ok['nama_ujian'] = $d['nama_ujian'] . "<br>Token : <b>" . $d['token'] . "</b> &nbsp;&nbsp; <a href='#' onclick='return refresh_token(" . $d['id'] . ")' title='Perbarui Token'><i class='fa fa-refresh'></i></a>";
 				$data_ok['mapel'] = $d['mapel'];
 				$data_ok['jumlah_soal'] = $d['jumlah_soal'];
 				$data_ok['id'] = $d['id'];
-				// $data_ok[4] = $d['kelas'] . " " . $d['jurusan'];
+
 				$data_ok['mulai'] = tjs($d['tgl_mulai'], "s") . "<br>(" . $d['waktu'] . " menit)";
 				$data_ok['pengacakan'] = $jenis_soal;
-				// $data_ok[6] = '
-				//     	<div class="btn-group">
-				//           <a href="#" onclick="return m_ujian_e(' . $d['id'] . ');"class="btn btn-warning	 btn-xs">&nbsp;<i class="glyphicon glyphicon-pencil" style="margin-left: 0px; color: #fff"></i>&nbsp;</a>
-				//           <a href="#" onclick="return m_ujian_h(' . $d['id'] . ');" class="btn btn-danger btn-xs">&nbsp;<i class="glyphicon glyphicon-remove" style="margin-left: 0px; color: #fff"></i> &nbsp;</a>
-				//           <a href="' . base_url() . 'adm/h_ujian/det/' . $d['id'] . '" class="btn btn-primary btn-xs">&nbsp;<i class="glyphicon glyphicon-search" style="margin-left: 0px; color: #fff"></i> &nbsp; Hasil</a>
-				//         </div>
-				//              ';
+
 				$data[] = $data_ok;
 			}
-			// $json_data = array(
-			// 	"draw" => $draw,
-			// 	"iTotalRecords" => $d_total_row,
-			// 	"iTotalDisplayRecords" => $d_total_row,
-			// 	"data" => $data
-			// );
-			// j($json_data);
+
 			j(["data" => $data]);
 			exit;
 		} else if ($uri3 == "refresh_token") {
@@ -1326,14 +1304,10 @@ class Adm extends CI_Controller
 		$uri3 = $this->uri->segment(3);
 		$uri4 = $this->uri->segment(4);
 		$uri5 = $this->uri->segment(5);
-		//var post from json
 		$p = json_decode(file_get_contents('php://input'));
-		//return as json
 		$jeson = array();
 
 		$wh_1 = $a['sess_level'] == "admin" ? "" : " AND a.id_guru = '" . $a['sess_konid'] . "'";
-		//$a['data'] = $this->db->query($wh_1)->result();
-
 
 		$a['p_mapel'] = obj_to_array($this->db->query("SELECT * FROM m_mapel")->result(), "id,nama");
 
@@ -1348,48 +1322,14 @@ class Adm extends CI_Controller
 											FROM tr_ikut_ujian
 											WHERE tr_ikut_ujian.id_tes = '$uri4'")->row();
 
-			//$a['hasil'] = $this->db->query("")->result();
 			$a['p'] = "m_guru_tes_hasil_detil";
-			//echo $this->db->last_query();
 		} else if ($uri3 == "data_det") {
-			// $start = $this->input->post('start');
-			// $length = $this->input->post('length');
-			// $draw = $this->input->post('draw');
-			// $search = $this->input->post('search');
-
-			// $d_total_row = $this->db->query("
-			// 	SELECT a.id
-			// 	FROM tr_ikut_ujian a
-			// 	INNER JOIN m_siswa b ON a.id_user = b.id
-			// 	WHERE a.id_tes = '$uri4' 
-			// 	AND b.nama LIKE '%" . $search['value'] . "%'")->num_rows();
-
 			$data = $this->db->query("
 	        	SELECT a.id, a.id_tes, b.nama, a.nilai, a.jml_benar, a.nilai_bobot
 				FROM tr_ikut_ujian a
 				INNER JOIN m_siswa b ON a.id_user = b.id
 				WHERE a.id_tes = '$uri4'")->result_array();
 
-			// $data = array();
-			// $no = ($start + 1);
-
-
-			// foreach ($q_datanya as $d) {
-			// 	$data_ok = array();
-			// 	$data_ok[0] = $no++;
-			// 	$data_ok[1] = $d['nama'];
-			// 	$data_ok[2] = $d['jml_benar'];
-			// 	$data_ok[3] = $d['nilai'];
-			// 	$data_ok[4] = $d['nilai_bobot'];
-			// 	$data_ok[5] = '<a href="' . base_url() . 'adm/h_ujian/batalkan_ujian/' . $d['id'] . '/' . $this->uri->segment(4) . '" class="btn btn-danger btn-xs" onclick="return confirm(\'Anda yakin...?\');"><i class="glyphicon glyphicon-remove" style="margin-left: 0px; color: #fff"></i> &nbsp;&nbsp;Batalkan Ujian</a>';
-			// 	$data[] = $data_ok;
-			// }
-			// $json_data = array(
-			// 	"draw" => $draw,
-			// 	"iTotalRecords" => $d_total_row,
-			// 	"iTotalDisplayRecords" => $d_total_row,
-			// 	"data" => $data
-			// );
 			j(["data" => $data]);
 			exit;
 		} else if ($uri3 == "batalkan_ujian") {
@@ -1398,7 +1338,7 @@ class Adm extends CI_Controller
 		} else if ($uri3 == "data") {
 			$data = $this->db->query("SELECT a.*, b.nama AS mapel, c.nama AS nama_guru FROM tr_guru_tes a
 											INNER JOIN m_mapel b ON a.id_mapel = b.id 
-											INNER JOIN m_guru c ON a.id_guru = c.id")->result_array();
+											INNER JOIN m_guru c ON a.id_guru = c.id " . "$wh_1")->result_array();
 
 
 			j(["data" => $data]);
