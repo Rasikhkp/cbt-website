@@ -79,6 +79,45 @@ const tampilkan_soal = (id) => {
     preview_soal_el.classList.toggle("hidden");
 };
 
+const customConfirm = async (text) => {
+    const result = await Swal.fire({
+        title: "Apakah anda yakin?",
+        text: text,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Lanjutkan",
+        cancelButtonText: "Batalkan",
+    });
+
+    return result.isConfirmed;
+};
+
+const logout = async () => {
+    const isConfirmed = await customConfirm("Anda yakin ingin keluar?");
+
+    if (!isConfirmed) return;
+
+    window.location.href = base_url + "adm/logout";
+};
+
+const hapus_soal = async (id) => {
+    const isConfirmed = await customConfirm('Ingin menghapus soal ini?')
+
+    if(!isConfirmed) return;
+    
+    window.location.href = base_url + 'adm/m_soal/hapus/' + id
+}
+
+const edit_soal = async (id) => {
+    const isConfirmed = await customConfirm('Ingin mengedit soal ini?')
+
+    if(!isConfirmed) return;
+    console.log('edit')
+    window.location.href = base_url + 'adm/m_soal/edit/' + id
+}
+
 $(document).ready(function () {
     $(".gambar").each(function () {
         var url = $(this).attr("src");
@@ -199,21 +238,6 @@ $(document).ready(function () {
         renderTable(columns, server);
     } else if (url == "m_soal") {
         if (url2 == "edit") {
-            // if (editor_style == "inline") {
-            //     CKEDITOR.inline("editornya");
-            //     CKEDITOR.inline("editornya_a");
-            //     CKEDITOR.inline("editornya_b");
-            //     CKEDITOR.inline("editornya_c");
-            //     CKEDITOR.inline("editornya_d");
-            //     CKEDITOR.inline("editornya_e");
-            // } else if (editor_style == "replace") {
-            //     CKEDITOR.replace("editornya");
-            //     CKEDITOR.replace("editornya_a");
-            //     CKEDITOR.replace("editornya_b");
-            //     CKEDITOR.replace("editornya_c");
-            //     CKEDITOR.replace("editornya_d");
-            //     CKEDITOR.replace("editornya_e");
-            // }
         } else {
             const columns = [];
             const server = {
@@ -250,19 +274,9 @@ $(document).ready(function () {
                                                 <box-icon name='dots-horizontal-rounded'></box-icon>
                                             </button>
 
-                                            <div id="soal-${
-                                                d.id
-                                            }" class="dropdown-more hide">
-                                                <a href="${
-                                                    base_url +
-                                                    "adm/m_soal/edit/" +
-                                                    d.id
-                                                }">Edit</a>
-                                                <a href="${
-                                                    base_url +
-                                                    "adm/m_soal/hapus/" +
-                                                    d.id
-                                                }">Delete</a>
+                                            <div id="soal-${d.id}" class="dropdown-more hide">
+                                                <button onclick="edit_soal(${d.id})">Edit</button>
+                                                <button onclick="hapus_soal(${d.id})">Hapus</button>
                                             </div>
                                         </div>
                                     </div>
@@ -594,8 +608,8 @@ function konfirmasi_token(id) {
     }
 }
 
-function m_soal_h(id) {
-    if (confirm("APAKAH ANDA YAKIN?")) {
+async function m_soal_h(id) {
+    if (await customConfirm("Apakah anda yakin?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_soal/hapus/" + id,
@@ -655,8 +669,8 @@ function m_ujian_s() {
     });
     return false;
 }
-function m_ujian_h(id) {
-    if (confirm("APAKAH ANDA YAKIN")) {
+async function m_ujian_h(id) {
+    if (await customConfirm("Apakah anda yakin")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_ujian/hapus/" + id,
@@ -725,8 +739,8 @@ function m_siswa_s() {
     });
     return false;
 }
-function m_siswa_h(id) {
-    if (confirm("APAKAH ANDA YAKIN")) {
+async function m_siswa_h(id) {
+    if (await customConfirm("Apakah anda yakin")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/hapus/" + id,
@@ -741,8 +755,8 @@ function m_siswa_h(id) {
     }
     return false;
 }
-function m_siswa_hs() {
-    if (confirm("APAKAH ANDA YAKIN MENGHAPUS SEMUA DATA?")) {
+async function m_siswa_hs() {
+    if (await customConfirm("Ingin menghapus semua data?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/hapussemua/",
@@ -757,8 +771,12 @@ function m_siswa_hs() {
     }
     return false;
 }
-function m_siswa_u(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
+async function m_siswa_u(id) {
+    if (
+        await customConfirm(
+            "Username dan password untuk user ini nantinya adalah kode"
+        )
+    ) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/user/" + id,
@@ -773,8 +791,12 @@ function m_siswa_u(id) {
     }
     return false;
 }
-function m_siswa_ur(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
+async function m_siswa_ur(id) {
+    if (
+        await customConfirm(
+            "Username dan password untuk user ini nantinya adalah kode"
+        )
+    ) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/user_reset/" + id,
@@ -789,8 +811,8 @@ function m_siswa_ur(id) {
     }
     return false;
 }
-function aktifkan_semua_siswa() {
-    if (confirm("APAKAH ANDA YAKIN MENGAKTIFKAN SEMUA DATA?")) {
+async function aktifkan_semua_siswa() {
+    if (await customConfirm("Mengaktifkan semua data?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/aktifkan_semua/",
@@ -805,8 +827,8 @@ function aktifkan_semua_siswa() {
     }
     return false;
 }
-function m_siswa_non_aktif(id) {
-    if (confirm("APAKAH ANDA YAKIN MENONAKTIFKAN USER INI?")) {
+async function m_siswa_non_aktif(id) {
+    if (await customConfirm("Menonaktifkan user ini?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_siswa/non_aktifkan/" + id,
@@ -854,8 +876,8 @@ function m_guru_s() {
     });
     return false;
 }
-function m_guru_h(id) {
-    if (confirm("APAKAH ANDA YAKIN?")) {
+async function m_guru_h(id) {
+    if (await customConfirm("Apakah anda yakin?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/hapus/" + id,
@@ -870,8 +892,12 @@ function m_guru_h(id) {
     }
     return false;
 }
-function m_guru_u(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
+async function m_guru_u(id) {
+    if (
+        await customConfirm(
+            "Username dan password untuk user ini nantinya adalah kode"
+        )
+    ) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/user/" + id,
@@ -887,8 +913,8 @@ function m_guru_u(id) {
     return false;
 }
 
-function m_guru_non_aktif(id) {
-    if (confirm("APAKAH ANDA YAKIN MENONAKTIFKAN USER INI?")) {
+async function m_guru_non_aktif(id) {
+    if (await customConfirm("Menonaktifkan user ini?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/non_aktifkan/" + id,
@@ -904,8 +930,12 @@ function m_guru_non_aktif(id) {
     }
 }
 
-function m_guru_ur(id) {
-    if (confirm("APAKAH ANDA YAKIN? USERNAME & PASSWORD ANDA ADALAH KODE")) {
+async function m_guru_ur(id) {
+    if (
+        await customConfirm(
+            "Username dan password untuk user ini nantinya adalah kode"
+        )
+    ) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/user_reset/" + id,
@@ -920,8 +950,8 @@ function m_guru_ur(id) {
     }
     return false;
 }
-function aktifkan_semua_guru() {
-    if (confirm("APAKAH ANDA YAKIN MENGAKTIFKAN SEMUA DATA?")) {
+async function aktifkan_semua_guru() {
+    if (await customConfirm("Mengaktifkan semua data?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_guru/aktifkan_semua_guru/",
@@ -1039,8 +1069,8 @@ function m_mapel_s() {
     });
     return false;
 }
-function m_mapel_h(id) {
-    if (confirm("APAKAH ANDA YAKIN?")) {
+async function m_mapel_h(id) {
+    if (await customConfirm("Apakah anda yakin?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_mapel/hapus/" + id,
@@ -1087,8 +1117,8 @@ function m_jurusan_s() {
     });
     return false;
 }
-function m_jurusan_h(id) {
-    if (confirm("APAKAH ANDA YAKIN?")) {
+async function m_jurusan_h(id) {
+    if (await customConfirm("Apakah anda yakin?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_jurusan/hapus/" + id,
@@ -1135,8 +1165,8 @@ function m_kelas_s() {
     });
     return false;
 }
-function m_kelas_h(id) {
-    if (confirm("APAKAH ANDA YAKIN?")) {
+async function m_kelas_h(id) {
+    if (await customConfirm("Apakah anda yakin?")) {
         $.ajax({
             type: "GET",
             url: base_url + "adm/m_kelas/hapus/" + id,

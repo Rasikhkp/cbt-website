@@ -63,13 +63,6 @@
     </div>
 
     <div class="my-modal-body">
-      <!-- <input type="hidden" name="id" id="id" value="0">
-      <div style="display: grid; grid-template-columns: 1fr 4fr; gap: 16px 40px">
-        <label for="nama" class="form-label text-end">Nama</label>
-        <input type="text" class="form-control" id="nama" name="nama" required>
-        <label for="nip" class="form-label text-end">Kode</label>
-        <input type="number" class="form-control" id="nip" name="nip" required>
-      </div> -->
     </div>
 
     <div class="my-modal-footer">

@@ -43,10 +43,10 @@
          <div class="dropdown-icon"><box-icon color="grey" name='reset'></box-icon></div>
          <div class="dropdown-action">Reset password</div>
       </button>
-      <a href="<?php echo base_url(); ?>adm/logout" onclick="return confirm('ANDA YAKIN KELUAR?');" class="dropdown-item">
+      <button onclick="logout()" class="dropdown-item">
          <div class="dropdown-icon"><box-icon color="grey" name='log-out'></box-icon></div>
          <div class="dropdown-action">Log out</div>
-      </a>
+      </button>
    </div>
 
    <div class="my-main">
@@ -104,6 +104,7 @@
    <script src="<?php echo base_url(); ?>___/plugin/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
    <script src="<?php echo base_url(); ?>___/plugin/eqneditor/eqneditor.js" referrerpolicy="origin"></script>
    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
    <script type="text/javascript">
       var base_url = "<?php echo base_url(); ?>";
