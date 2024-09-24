@@ -66,18 +66,18 @@ form label {
 form input {
     width: 100%;
     font-size: 1rem;
-    padding: 1rem 1rem;
-    border-radius: 0.5rem;
+    padding: 12px 16px;
+    border-radius: 8px;
     margin-bottom: 1rem;
-    border: 1px solid var(--red);
+    border: 1px solid #c27e806f;
     box-sizing: border-box;
     outline: none;
     transition: all 0.1s ease-in;
 }
 
 form input:focus {
-    outline: 4px solid #6c20236f;
-    border: 1px solid #6c20236f;
+    outline: 4px solid #c27e806f;
+    border: 1px solid #c27e806f;
     animation-duration: 0.1s;
 }
 
@@ -88,7 +88,7 @@ form button {
     color: white;
     font-size: 1rem;
     font-weight: 600;
-    border-radius: 1rem;
+    border-radius: 8px;
     border: none;
     margin-top: 10px;
     transition: all 0.3s;

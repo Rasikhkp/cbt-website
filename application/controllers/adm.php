@@ -44,9 +44,9 @@ class Adm extends CI_Controller
 	{
 		if ($_FILES['file']['name']) {
 			if (!$_FILES['file']['error']) {
-				$name = md5(rand(100, 200));
+				$dateTime = date('Y-m-d_H-i-s'); // Format: YYYY-MM-DD_HH-MM-SS
 				$ext = explode('.', $_FILES['file']['name']);
-				$filename = $name . '.' . end($ext); // Use end() to get the last element
+				$filename = $dateTime . '.' . end($ext); // Use formatted dateTime for the file name
 				$destination = './upload/gambar/' . $filename;
 				$imgSrc = base_url('upload/gambar/' . $filename); // Use base_url to generate the full URL
 				$location = $_FILES['file']['tmp_name'];
@@ -55,6 +55,27 @@ class Adm extends CI_Controller
 			} else {
 				echo 'Oops! Your upload triggered the following error: ' . $_FILES['file']['error'];
 			}
+		}
+	}
+
+	public function delete_image()
+	{
+		$input = json_decode(file_get_contents('php://input'), true);
+
+		if (isset($input['imgSrc'])) {
+			$filePath = str_replace(base_url(), './', $input['imgSrc']);
+
+			if (file_exists($filePath)) {
+				if (unlink($filePath)) {
+					echo json_encode(['status' => 'success', 'message' => 'File deleted successfully']);
+				} else {
+					echo json_encode(['status' => 'error', 'message' => 'Unable to delete file']);
+				}
+			} else {
+				echo json_encode(['status' => 'error', 'message' => 'File does not exist']);
+			}
+		} else {
+			echo json_encode(['status' => 'error', 'message' => 'No image source provided']);
 		}
 	}
 
@@ -830,43 +851,49 @@ class Adm extends CI_Controller
 			if ($p['mode'] == "edit") {
 				unset($p['mode']);
 
-				$old_soal = $this->db->query("SELECT soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e FROM m_soal WHERE id = " . $this->db->escape($p['id']))->row_array();
+				// $old_soal = $this->db->query("SELECT soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e FROM m_soal WHERE id = " . $this->db->escape($p['id']))->row_array();
 
-				$new_soal = [
-					'soal' => $p['soal'],
-					'opsi_a' => $p['opsi_a'],
-					'opsi_b' => $p['opsi_b'],
-					'opsi_c' => $p['opsi_c'],
-					'opsi_d' => $p['opsi_d'],
-					'opsi_e' => $p['opsi_e'],
-				];
+				// $new_soal = [
+				// 	'soal' => $p['soal'],
+				// 	'opsi_a' => $p['opsi_a'],
+				// 	'opsi_b' => $p['opsi_b'],
+				// 	'opsi_c' => $p['opsi_c'],
+				// 	'opsi_d' => $p['opsi_d'],
+				// 	'opsi_e' => $p['opsi_e'],
+				// ];
 
-				$old_soal_str = implode(" ", $old_soal);
-				$new_soal_str = implode(" ", $new_soal);
+				// $old_soal_str = implode(" ", $old_soal);
+				// $new_soal_str = implode(" ", $new_soal);
 
-				function extract_image_src($html)
-				{
-					preg_match_all('/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i', $html, $matches);
-					return $matches[1];
-				}
+				// function extract_image_src($html)
+				// {
+				// 	preg_match_all('/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i', $html, $matches);
+				// 	return $matches[1];
+				// }
 
-				$old_images = extract_image_src($old_soal_str);
-				$new_images = extract_image_src($new_soal_str);
+				// $old_images = extract_image_src($old_soal_str);
+				// $new_images = extract_image_src($new_soal_str);
 
-				// mencari gambar yang ada di old_images tapi tidak ada di new_images
-				$images_to_delete = array_diff($old_images, $new_images);
+				// // mencari gambar yang ada di old_images tapi tidak ada di new_images
+				// $images_to_delete = array_diff($old_images, $new_images);
 
-				foreach ($images_to_delete as $image) {
-					$file_path = __DIR__ . str_replace('http://localhost/cbt_website_cooler', '../../..', $image);
+				// foreach ($images_to_delete as $image) {
+				// 	$file_path = __DIR__ . str_replace('http://localhost/cbt_website_cooler', '../../..', $image);
 
 
-					if (file_exists($file_path)) {
-						unlink($file_path);
-						echo "Deleted: " . $file_path . "\n";
-					} else {
-						echo "File not found: " . $file_path . "\n";
-					}
-				}
+				// 	if (file_exists($file_path)) {
+				// 		unlink($file_path);
+				// 		echo "Deleted: " . $file_path . "\n";
+				// 	} else {
+				// 		echo "File not found: " . $file_path . "\n";
+				// 	}
+				// }
+
+				// echo '<pre>';
+				// echo htmlspecialchars(print_r($p, true));  // Escape HTML in the printed array structure
+				// echo '</pre>';
+
+				// exit();
 
 				$this->db->where("id", $p['id']);
 				$this->db->update("m_soal", $p);
@@ -875,124 +902,11 @@ class Adm extends CI_Controller
 				unset($p['mode']);
 				unset($p['id']);
 
-				// echo "<pre>";
-				// // print_r(htmlspecialchars($old_soal[0]['soal']));
-				// print_r(htmlspecialchars($p['opsi_e']));
-				// echo "</pre>";
-				// exit;
-
 				$p['tgl_input'] = date('Y-m-d H:i:s');
+
 				$this->db->insert("m_soal", $p);
-				// $get_id_akhir = $this->db->query("SELECT MAX(id) maks FROM m_soal LIMIT 1")->row_array();
-				// $__id_soal = $get_id_akhir['maks'];
 			}
-			// echo "<pre>";
-			// print_r($p);
-			// echo "</pre>";
-			// $pembuat_soal = ($a['sess_level'] == "admin") ? $p['id_guru'] : $a['sess_konid'];
-			// $pembuat_soal_u = ($a['sess_level'] == "admin") ? ", id_guru = '" . $p['id_guru'] . "'" : "";
-			// //etok2nya config
-			// $folder_gb_soal = "./upload/gambar_soal/";
-			// $folder_gb_opsi = "./upload/gambar_opsi/";
-			// $buat_folder_gb_soal = !is_dir($folder_gb_soal) ? @mkdir("./upload/gambar_soal/") : false;
-			// $buat_folder_gb_opsi = !is_dir($folder_gb_opsi) ? @mkdir("./upload/gambar_opsi/") : false;
-			// $allowed_type 	= array(
-			// 	"image/jpeg", "image/png", "image/gif",
-			// 	"audio/mpeg", "audio/mpg", "audio/mpeg3", "audio/mp3", "audio/x-wav", "audio/wave", "audio/wav",
-			// 	"video/mp4", "application/octet-stream"
-			// );
-			// $gagal 		= array();
-			// $nama_file 	= array();
-			// $tipe_file 	= array();
-			// //get mode
-			// $__mode = $p['mode'];
-			// $__id_soal = 0;
-			// //ambil data post sementara
-			// $pdata = array(
-			// 	"id_guru" => $p['id_guru'],
-			// 	"id_mapel" => $p['id_mapel'],
-			// 	"id_kelas" => "mau dihapus",
-			// 	"bobot" => $p['bobot'],
-			// 	"soal" => $p['soal'],
-			// 	"jawaban" => $p['jawaban'],
-			// );
-			// if ($__mode == "edit") {
-			// 	$this->db->where("id", $p['id']);
-			// 	$this->db->update("m_soal", $pdata);
-			// 	$__id_soal = $p['id'];
-			// } else {
-			// 	$this->db->insert("m_soal", $pdata);
-			// 	$get_id_akhir = $this->db->query("SELECT MAX(id) maks FROM m_soal LIMIT 1")->row_array();
-			// 	$__id_soal = $get_id_akhir['maks'];
-			// }
-			// //mulai dari sini id soal diambil dari variabel $__id
-			// //lakukan perulangan sejumlah file upload yang terdeteksi
-			// foreach ($_FILES as $k => $v) {
-			// 	//var file upload
-			// 	//$k = nama field di form
-			// 	$file_name 		= $_FILES[$k]['name'];
-			// 	$file_type		= $_FILES[$k]['type'];
-			// 	$file_tmp		= $_FILES[$k]['tmp_name'];
-			// 	$file_error		= $_FILES[$k]['error'];
-			// 	$file_size		= $_FILES[$k]['size'];
-			// 	//kode ref file upload jika error
-			// 	$kode_file_error = array("File berhasil diupload", "Ukuran file terlalu besar", "Ukuran file terlalu besar", "File upload error", "Tidak ada file yang diupload", "File upload error");
-			// 	//jika file error = 0 / tidak ada, tipe file ada di file yang diperbolehkan, dan nama file != kosong
-			// 	//echo $file_error."<br>".$file_type;
-			// 	//exit;
-			// 	//echo var_dump($file_error == 0 || in_array($file_type, $allowed_type) || $file_name != "");
-			// 	//exit;
-			// 	if ($file_error != 0) {
-			// 		$gagal[$k] = $kode_file_error[$file_error];
-			// 		$nama_file[$k]	= "";
-			// 		$tipe_file[$k]	= "";
-			// 	} else if (!in_array($file_type, $allowed_type)) {
-			// 		$gagal[$k] = "Tipe file ini tidak diperbolehkan!";
-			// 		$nama_file[$k]	= "";
-			// 		$tipe_file[$k]	= "";
-			// 	} else if ($file_name == "") {
-			// 		$gagal[$k] = "Tidak ada file yang diupload";
-			// 		$nama_file[$k]	= "";
-			// 		$tipe_file[$k]	= "";
-			// 	} else {
-			// 		$ekstensi = explode(".", $file_name);
-			// 		$file_name = $k . "_" . $__id_soal . "." . $ekstensi[1];
-			// 		if ($k == "gambar_soal") {
-			// 			@move_uploaded_file($file_tmp, $folder_gb_soal . $file_name);
-			// 		} else {
-			// 			@move_uploaded_file($file_tmp, $folder_gb_opsi . $file_name);
-			// 		}
-			// 		$gagal[$k]	 	= $kode_file_error[$file_error]; //kode kegagalan upload file
-			// 		$nama_file[$k]	= $file_name; //ambil nama file
-			// 		$tipe_file[$k]	= $file_type; //ambil tipe file
-			// 	}
-			// }
-			// //ambil data awal
-			// $get_opsi_awal = $this->db->query("SELECT opsi_a, opsi_b, opsi_c, opsi_d, opsi_e FROM m_soal WHERE id = '" . $__id_soal . "'")->row_array();
-			// $data_simpan = array();
-			// if (!empty($nama_file['gambar_soal'])) {
-			// 	$data_simpan = array(
-			// 		"file" => $nama_file['gambar_soal'],
-			// 		"tipe_file" => $tipe_file['gambar_soal'],
-			// 	);
-			// }
-			// for ($t = 0; $t < $a['jml_opsi']; $t++) {
-			// 	$idx 	= "opsi_" . $a['huruf_opsi'][$t];
-			// 	$idx2 	= "gj" . $a['huruf_opsi'][$t];
-			// 	//jika file kosong
-			// 	$pc_opsi_awal = explode("#####", $get_opsi_awal[$idx]);
-			// 	$nama_file_opsi = empty($nama_file[$idx2]) ? $pc_opsi_awal[0] : $nama_file[$idx2];
-			// 	$data_simpan[$idx] = $nama_file_opsi . "#####" . $p[$idx];
-			// }
-			// $this->db->where("id", $__id_soal);
-			// $this->db->update("m_soal", $data_simpan);
-			// $teks_gagal = "";
-			// foreach ($gagal as $k => $v) {
-			// 	$arr_nama_file_upload = array("gambar_soal" => "File Soal ", "gja" => "File opsi A ", "gjb" => "File opsi B ", "gjc" => "File opsi C ", "gjd" => "File opsi D ", "gje" => "File opsi E ");
-			// 	$teks_gagal .= $arr_nama_file_upload[$k] . ': ' . $v . '<br>';
-			// }
-			// $this->session->set_flashdata('k', '<div class="alert alert-info">' . $teks_gagal . '</div>');
-			// redirect('adm/m_soal/pilih_mapel/' . $p['id_mapel']);
+
 			redirect('adm/m_soal/');
 		} else if ($uri3 == "edit") {
 			$a['opsij'] = array("" => "Jawaban", "A" => "A", "B" => "B", "C" => "C", "D" => "D", "E" => "E");
@@ -1022,6 +936,10 @@ class Adm extends CI_Controller
 			// 	$data[$idx2] = $iidata;
 			// }
 			// $a['data_pc'] = $data;
+			// echo '<pre>';
+			// echo htmlspecialchars(print_r($a, true));  // Escape HTML in the printed array structure
+			// echo '</pre>';
+
 			$a['p'] = "f_soal";
 		} else if ($uri3 == "hapus") {
 			$nama_gambar = $this->db->query("SELECT id_mapel, file, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e FROM m_soal WHERE id = '" . $uri4 . "'")->row();
@@ -2000,6 +1918,18 @@ class Adm extends CI_Controller
 		$last		= $kode_awal . str_pad($data, $pad, '0', STR_PAD_LEFT);
 
 		return $last;
+	}
+
+	private function delete_temp_images()
+	{
+		$tempFolder = './temp/';
+		$files = glob($tempFolder . '*'); // Get all file names
+
+		foreach ($files as $file) {
+			if (is_file($file)) {
+				unlink($file); // Delete each file
+			}
+		}
 	}
 }
 /* End of file welcome.php */

@@ -238,6 +238,33 @@
                   };
                   input.click();
                }
+            },
+            setup: function(editor) {
+               let previousImages = new Set();
+
+               editor.on('NodeChange', function(e) {
+                  let currentImages = new Set();
+                  const imgElements = editor.getDoc().querySelectorAll('img');
+                  imgElements.forEach(img => {
+                     currentImages.add(img.src);
+                  });
+
+                  previousImages.forEach(imgSrc => {
+                     if (!currentImages.has(imgSrc)) {
+                        fetch('<?php echo site_url('adm/delete_image'); ?>', {
+                           method: 'POST',
+                           headers: {
+                              'Content-Type': 'application/json'
+                           },
+                           body: JSON.stringify({
+                              imgSrc: imgSrc
+                           })
+                        });
+                     }
+                  });
+
+                  previousImages = new Set(currentImages);
+               });
             }
          });
       </script>

@@ -44,7 +44,7 @@
     $counter = 1;
     foreach ($soal as $el):
     ?>
-        <div style="border-radius: 8px; width: 100%; background-color: white" class="p-4 border">
+        <div style="border-radius: 8px; width: 100%; height: fit-content; background-color: white" class="p-4 border">
             <div style="color: #625E5E" class="d-flex justify-content-between">
                 <div class="fw-medium">Soal <?php echo $counter; ?></div>
                 <div style="font-size: 14px"><span style="color: #B7B7B7">Bobot</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $el['bobot']; ?></div>
