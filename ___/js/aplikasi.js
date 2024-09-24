@@ -252,25 +252,27 @@ $(document).ready(function () {
                                             i + 1
                                         }</div>
                                         <div class="soal-info">
-                                            <div class="badge-kategori-panitia">${
-                                                d.pk
-                                            }</div>
-                                            <div style="color: #C8C8C8;">Dipakai&emsp;<span style="color: black">${
-                                                d.dipakai
-                                            }</span></div>
-                                            <div style="color: #C8C8C8;">Benar&emsp;<span style="color: black">${
-                                                d.benar
-                                            }</span></div>
-                                            <div style="color: #C8C8C8;">Salah&emsp;<span style="color: black">${
-                                                d.salah
-                                            }</span></div>
+                                            <div class="d-flex gap-4">
+                                                <div class="d-flex gap-3 align-items-center">
+                                                    <box-icon name='user' color='#C8C8C8'></box-icon>
+                                                    <div>${d.guru}</div>
+                                                </div>
+                                                <div class="d-flex gap-3 align-items-center">
+                                                    <box-icon name='grid-alt' color='#C8C8C8'></box-icon>
+                                                    <div>${d.mapel}</div>
+                                                </div>
+                                            </div>
+
                                             <div class="vertical-divider"></div>
-                                            <div style="color: #C8C8C8;">Bobot&emsp;<span style="color: black">${
-                                                d.bobot
-                                            }</span></div>
-                                            <button onclick="toggle_dropdown(event, ${
-                                                d.id
-                                            })" class="btn-dropdown">
+
+                                            <div style="color: #C8C8C8;">Dipakai&emsp;<span style="color: black">${ d.dipakai }</span></div>
+                                            <div style="color: #C8C8C8;">Benar&emsp;<span style="color: black">${ d.benar }</span></div>
+                                            <div style="color: #C8C8C8;">Salah&emsp;<span style="color: black">${ d.salah }</span></div>
+
+                                            <div class="vertical-divider"></div>
+
+                                            <div style="color: #C8C8C8;">Bobot&emsp;<span style="color: black">${ d.bobot }</span></div>
+                                            <button onclick="toggle_dropdown(event, ${ d.id })" class="btn-dropdown">
                                                 <box-icon name='dots-horizontal-rounded'></box-icon>
                                             </button>
 
@@ -595,15 +597,27 @@ function login(e) {
 =======================================
 =======================================
 */
-function konfirmasi_token(id) {
+async function konfirmasi_token(id) {
     var token_asli = $("#_token").val();
     var token_input = $("#token").val();
 
     if (token_asli != token_input) {
-        alert("TOKEN YANG ADA MASUKKAN SALAH!");
+        // alert("TOKEN YANG ADA MASUKKAN SALAH!");
+        await Swal.fire({
+            title: "Oops...",
+            text: "Token yang anda masukkan salah!",
+            icon: "error"
+        });
+
         return false;
     } else {
-        alert("TOKEN BENAR, SILAHKAN KLIK TOMBOL OK");
+        // alert("TOKEN BENAR, SILAHKAN KLIK TOMBOL OK");
+        await Swal.fire({
+            title: "Berhasil",
+            text: "Token yang anda masukkan benar!",
+            icon: "success"
+        });
+
         window.location.assign(base_url + "adm/ikut_ujian/_/" + id);
     }
 }

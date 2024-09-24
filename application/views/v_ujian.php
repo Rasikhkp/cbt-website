@@ -225,6 +225,7 @@
     <script src="<?php echo base_url(); ?>___/plugin/countdown/jquery.countdownTimer.js"></script>
     <script src="<?php echo base_url(); ?>___/plugin/jquery_zoom/jquery.zoom.min.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script type="text/javascript">
         var base_url = "<?php echo base_url(); ?>";
@@ -232,6 +233,21 @@
         $(window).load(function() {
             $(".se-pre-con").fadeOut("slow");
         });
+
+        async function customConfirm(text) {
+            const result = await Swal.fire({
+                title: "Apakah anda yakin?",
+                text: text,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Lanjutkan",
+                cancelButtonText: "Batalkan",
+            });
+
+            return result.isConfirmed;
+        };
 
         function convertMinutesToHHMMSS(minutes) {
             const totalSeconds = minutes * 60;
@@ -555,9 +571,9 @@
             }
         }
 
-        simpan_akhir = function() {
+        simpan_akhir = async function() {
             simpan();
-            if (confirm('Ujian telah selesai. Anda yakin akan mengakhiri tes ini..?')) {
+            if (await customConfirm('Anda yakin akan mengakhiri tes ini?')) {
                 simpan();
                 $.ajax({
                     type: "GET",

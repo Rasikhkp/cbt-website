@@ -851,53 +851,8 @@ class Adm extends CI_Controller
 			if ($p['mode'] == "edit") {
 				unset($p['mode']);
 
-				// $old_soal = $this->db->query("SELECT soal, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e FROM m_soal WHERE id = " . $this->db->escape($p['id']))->row_array();
-
-				// $new_soal = [
-				// 	'soal' => $p['soal'],
-				// 	'opsi_a' => $p['opsi_a'],
-				// 	'opsi_b' => $p['opsi_b'],
-				// 	'opsi_c' => $p['opsi_c'],
-				// 	'opsi_d' => $p['opsi_d'],
-				// 	'opsi_e' => $p['opsi_e'],
-				// ];
-
-				// $old_soal_str = implode(" ", $old_soal);
-				// $new_soal_str = implode(" ", $new_soal);
-
-				// function extract_image_src($html)
-				// {
-				// 	preg_match_all('/<img\s+[^>]*src=["\']([^"\']+)["\'][^>]*>/i', $html, $matches);
-				// 	return $matches[1];
-				// }
-
-				// $old_images = extract_image_src($old_soal_str);
-				// $new_images = extract_image_src($new_soal_str);
-
-				// // mencari gambar yang ada di old_images tapi tidak ada di new_images
-				// $images_to_delete = array_diff($old_images, $new_images);
-
-				// foreach ($images_to_delete as $image) {
-				// 	$file_path = __DIR__ . str_replace('http://localhost/cbt_website_cooler', '../../..', $image);
-
-
-				// 	if (file_exists($file_path)) {
-				// 		unlink($file_path);
-				// 		echo "Deleted: " . $file_path . "\n";
-				// 	} else {
-				// 		echo "File not found: " . $file_path . "\n";
-				// 	}
-				// }
-
-				// echo '<pre>';
-				// echo htmlspecialchars(print_r($p, true));  // Escape HTML in the printed array structure
-				// echo '</pre>';
-
-				// exit();
-
 				$this->db->where("id", $p['id']);
 				$this->db->update("m_soal", $p);
-				// $__id_soal = $p['id'];
 			} else {
 				unset($p['mode']);
 				unset($p['id']);
@@ -942,20 +897,9 @@ class Adm extends CI_Controller
 
 			$a['p'] = "f_soal";
 		} else if ($uri3 == "hapus") {
-			$nama_gambar = $this->db->query("SELECT id_mapel, file, opsi_a, opsi_b, opsi_c, opsi_d, opsi_e FROM m_soal WHERE id = '" . $uri4 . "'")->row();
-			$pc_opsi_a = explode("#####", $nama_gambar->opsi_a);
-			$pc_opsi_b = explode("#####", $nama_gambar->opsi_b);
-			$pc_opsi_c = explode("#####", $nama_gambar->opsi_c);
-			$pc_opsi_d = explode("#####", $nama_gambar->opsi_d);
-			$pc_opsi_e = explode("#####", $nama_gambar->opsi_e);
 			$this->db->query("DELETE FROM m_soal WHERE id = '" . $uri4 . "'");
-			@unlink("./upload/gambar_soal/" . $nama_gambar->file);
-			@unlink("./upload/gambar_soal/" . $pc_opsi_a[0]);
-			@unlink("./upload/gambar_soal/" . $pc_opsi_b[0]);
-			@unlink("./upload/gambar_soal/" . $pc_opsi_c[0]);
-			@unlink("./upload/gambar_soal/" . $pc_opsi_d[0]);
-			@unlink("./upload/gambar_soal/" . $pc_opsi_e[0]);
-			redirect('adm/m_soal/pilih_mapel/' . $nama_gambar->id_mapel);
+
+			redirect('adm/m_soal');
 		} else if ($uri3 == "cetak") {
 			$html = "<link href='" . base_url() . "___/css/style_print.css' rel='stylesheet' media='' type='text/css'/>";
 			if ($a['sess_level'] == "admin") {
@@ -1046,7 +990,8 @@ class Adm extends CI_Controller
 				$data_ok["benar"] = $jml_benar;
 				$data_ok["salah"] = $jml_salah;
 				$data_ok["bobot"] = $d['bobot'];
-				$data_ok["pk"] = $d['nmguru'] . ' / ' . $d['nmmapel'];
+				$data_ok["guru"] = $d['nmguru'];
+				$data_ok["mapel"] = $d['nmmapel'];
 
 				// $data_ok["analisa"] = "Dipakai : " . ($total) . ", Benar: " . $jml_salah . ", Salah: " . $jml_salah . "<br>Persentase benar : " . number_format($persen_benar) . " %";
 
