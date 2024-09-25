@@ -248,9 +248,7 @@ $(document).ready(function () {
                         return [
                             gridjs.html(`
                                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <div style="font-weight: 700; font-size: 18px; color: #4F4F4F">Soal&emsp;${
-                                            i + 1
-                                        }</div>
+                                        <div style="font-weight: 700; font-size: 18px; color: #4F4F4F">ID #${d.id}</div>
                                         <div class="soal-info">
                                             <div class="d-flex gap-4">
                                                 <div class="d-flex gap-3 align-items-center">

@@ -1681,8 +1681,8 @@ class Adm extends CI_Controller
 										</label>
 									</div>';
 
-							$soal_jawaban .= '<div onclick="simpan_sementara()" style="display: flex; align-items: start; gap: 16px;">
-												<input style="display: block" type="radio" id="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" name="opsi_' . $no . '" value="' . strtoupper($this->opsi[$j]) . '" ' . $checked . ' /> 
+							$soal_jawaban .= '<div class="form-check" onclick="simpan_sementara()" style="display: flex; align-items: start; gap: 16px;">
+												<input style="display: block" class="form-check-input" type="radio" id="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" name="opsi_' . $no . '" value="' . strtoupper($this->opsi[$j]) . '" ' . $checked . ' /> 
 												<label for="opsi_' . strtoupper($this->opsi[$j]) . '_' . $d->id . '" style="font-weight: 400">' . $d->$opsi . '</label>
 											</div>';
 						}
